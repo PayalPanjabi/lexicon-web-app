@@ -1267,10 +1267,11 @@ class Customlib
     {
         $result         = $this->getLoggedInUserData();
         $id             = $result["id"];
+        $sch_id             = $result["sch_id"];
         $data           = $this->CI->staff_model->get($id);
-        $setting_result = $this->CI->setting_model->get();
+        $setting_result = $this->CI->setting_model->get($sch_id);
         if (!empty($setting_result)) {
-            $data["class_teacher"] = $setting_result[0]["class_teacher"];
+            $data["class_teacher"] = $setting_result["class_teacher"];
         } else {
             $data["class_teacher"] = "yes";
         }
@@ -1297,9 +1298,9 @@ class Customlib
         $getUserassignclass = $this->CI->classteacher_model->getclassbyuser($id);
         $classteacherlist   = $getUserassignclass;
         $class              = array();
-        echo "<pre>";
-        print_r($classteacherlist);
-        echo "<pre>";die;
+        // echo "<pre>";
+        // print_r($classteacherlist);
+        // echo "<pre>";die;
         foreach ($classteacherlist as $key => $value) {
             $class[] = $value["id"];
         }
@@ -1307,9 +1308,9 @@ class Customlib
         if (!empty($class)) {
 
             $getSubjectassignclass = $this->CI->classteacher_model->classbysubjectteacher($id, $class);
-            echo "<pre>";
-            print_r($getSubjectassignclass);
-            echo "<pre>";die;
+            // echo "<pre>";
+            // print_r($getSubjectassignclass);
+            // echo "<pre>";die;
             $subjectteacherlist = $getSubjectassignclass;
 
             $classlist = array_merge($classteacherlist, $subjectteacherlist);

@@ -26,6 +26,8 @@ class Staff extends Admin_Controller
         $this->payment_mode       = $this->config->item('payment_mode');
         $this->status             = $this->config->item('status');
         $this->sch_setting_detail = $this->setting_model->getSetting();
+        $this->load->library('session');
+
     }
 
     public function index()
@@ -42,6 +44,10 @@ class Staff extends Admin_Controller
         $search             = $this->input->post("search");
         $resultlist         = $this->staff_model->searchFullText("", 1);
         $data['resultlist'] = $resultlist;
+
+        $admin = $this->session->userdata('admin');
+        $school_id = $admin['sch_id'];
+
         $staffRole          = $this->staff_model->getStaffRole();
         $data["role"]       = $staffRole;
         $data["role_id"]    = "";
@@ -55,10 +61,14 @@ class Staff extends Admin_Controller
                 } else {
                     $data['searchby']    = "filter";
                     $role                = $this->input->post('role');
+
+                    // print_r($role);
                     $data['employee_id'] = $this->input->post('empid');
                     $data["role_id"]     = $role;
                     $data['search_text'] = $this->input->post('search_text');
+
                     $resultlist          = $this->staff_model->getEmployee($role, 1);
+                    // print_r($resultlist);die;
                     $data['resultlist']  = $resultlist;
                 }
             } else if ($search == 'search_full') {
@@ -636,6 +646,10 @@ class Staff extends Admin_Controller
             if ($date_of_joining != "") {
                 $data_insert['date_of_joining'] = date('Y-m-d', $this->customlib->datetostrtotime($date_of_joining));
             }
+
+            $admin = $this->session->userdata('admin');
+            $school_id = $admin['sch_id'];
+            $data_insert['sch_id'] = $school_id;
 
             $leave_type  = $this->input->post('leave_type');
             $leave_array = array();

@@ -10,6 +10,7 @@ class Roles extends Admin_Controller {
     function __construct() {
         parent::__construct();
         $this->load->config('mailsms');
+         $this->load->library('session');
         $this->perm_category = $this->config->item('perm_category');
     }
 
@@ -21,7 +22,8 @@ class Roles extends Admin_Controller {
         $data['title'] = 'Add Role';
         $this->session->set_userdata('top_menu', 'System Settings');
         $this->session->set_userdata('sub_menu', 'admin/roles');
-
+        $admin = $this->session->userdata('admin');
+        $school_id = $admin['sch_id'];
         $this->form_validation->set_rules(
                 'name', $this->lang->line('name'), array(
             'required',
@@ -36,7 +38,9 @@ class Roles extends Admin_Controller {
             $this->load->view('layout/footer');
         } else {
             $data = array(
-                'name' => $this->input->post('name')
+                'name' => $this->input->post('name'),
+                'sch_id' => $school_id,
+
             );
             $this->role_model->add($data);
             $this->session->set_flashdata('msg', '<div class="alert alert-success text-left">' . $this->lang->line('success_message') . '</div>');

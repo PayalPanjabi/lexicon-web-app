@@ -29,6 +29,7 @@ class Onlinestudent extends Admin_Controller {
         $this->session->set_userdata('sub_menu', 'onlinestudent');
         $data['title'] = 'Student List';
         $class = $this->class_model->get();
+        // echo "<pre>";print_r($class);die;
         $data['classlist'] = $class;
 
         if (!empty($data['classlist'])) {
@@ -37,6 +38,9 @@ class Onlinestudent extends Admin_Controller {
             }
         }
         $data['sch_setting']     = $this->sch_setting_detail;
+        // echo "<pre>";print_r($data['sch_setting']);die;
+
+        // print_r($data['sch_setting']);die;
         $student_result = $this->onlinestudent_model->get(null, $carray);
         $data['studentlist'] = $student_result;
       
