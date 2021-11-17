@@ -1153,7 +1153,8 @@ class Smsgateway {
         if ($credential_for == "student") {
             $student = $this->_CI->student_model->get($sender_details['id']);
             $sender_details['url'] = site_url('site/userlogin');
-            $sender_details['display_name'] = $student['firstname'] . " " . $student['lastname'];
+            // $sender_details['display_name'] = $student['firstname'] . " " . $student['lastname'];
+            $sender_details['display_name'] = $student['firstname'] . ' ' .  $student['lastname'];
         } elseif ($credential_for == "parent") {
             $parent = $this->_CI->student_model->get($sender_details['id']);
             $sender_details['url'] = site_url('site/userlogin');

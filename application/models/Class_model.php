@@ -63,14 +63,84 @@ class Class_model extends MY_Model {
 
         return $classlist;
     }
+// 
+    // 
+    public function get_class_by_school($id = null, $classteacher = null) {
 
+        $admin = $this->session->userdata('admin');
+        $school_id = $admin['sch_id'];  
+
+        // print_r( $school_id);die;
+
+        $userdata = $this->customlib->getUserData();
+        $role_id = $userdata["role_id"];
+        $carray = array();
+        if (isset($role_id) && ($userdata["role_id"] == 2) && ($userdata["class_teacher"] == "yes")) {
+            if ($userdata["class_teacher"] == 'yes') {
+
+                $classlist = $this->teacher_model->get_teacherrestricted_mode($userdata["id"]);
+            }
+        } else {
+
+            $this->db->select()->from('classes');
+            if ($school_id != null) {
+                $this->db->where('sch_id', $school_id);
+            } else {
+                $this->db->order_by('id');
+            }
+            $query = $this->db->get();
+            if ($school_id != null) {
+                $classlist = $query->result_array();
+
+            } else {
+                $classlist = $query->result_array();
+            }
+        }
+
+        return $classlist;
+    }
+
+
+
+
+    // 
+    public function get_class_by($id = null, $classteacher = null) {
+
+        $userdata = $this->customlib->getUserData();
+        $role_id = $userdata["role_id"];
+        $carray = array();
+        if (isset($role_id) && ($userdata["role_id"] == 2) && ($userdata["class_teacher"] == "yes")) {
+            if ($userdata["class_teacher"] == 'yes') {
+
+                $classlist = $this->teacher_model->get_teacherrestricted_mode($userdata["id"]);
+            }
+        } else {
+
+            $this->db->select()->from('classes');
+            if ($id != null) {
+                $this->db->where('id', $id);
+            } else {
+                $this->db->order_by('id');
+            }
+            $query = $this->db->get();
+            if ($id != null) {
+                $classlist = $query->row_array();
+            } else {
+                $classlist = $query->result_array();
+            }
+        }
+
+        return $classlist;
+    }
+
+    // 
     /**
      * This function will delete the record based on the id
      * @param $id
      */
     public function remove($id) {
-        $this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+        // $this->db->trans_start(); # Starting Transaction
+        // $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
         $this->db->where('id', $id);
         $this->db->delete('classes'); //class record delete.
@@ -83,15 +153,15 @@ class Class_model extends MY_Model {
         $record_id = $id;
         $this->log($message, $record_id, $action);
         //======================Code End==============================
-        $this->db->trans_complete(); # Completing transaction
-        /* Optional */
-        if ($this->db->trans_status() === false) {
-            # Something went wrong.
-            $this->db->trans_rollback();
-            return false;
-        } else {
-            //return $return_value;
-        }
+        // $this->db->trans_complete(); # Completing transaction
+        // /* Optional */
+        // if ($this->db->trans_status() === false) {
+        //     # Something went wrong.
+        //     $this->db->trans_rollback();
+        //     return false;
+        // } else {
+        //     //return $return_value;
+        // }
     }
 
     /**

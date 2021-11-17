@@ -36,8 +36,12 @@ class Classsection_model extends MY_Model {
 
     public function add($data, $sections) {
 
-        $this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+
+        $sch_id=$data['sch_id'];
+        // print_r($sch_id);die;
+
+        // $this->db->trans_start(); # Starting Transaction
+        // $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
         if (isset($data['id'])) {
             $this->db->where('id', $data['id']);
@@ -49,16 +53,17 @@ class Classsection_model extends MY_Model {
             $this->log($message, $record_id, $action);
             //======================Code End==============================
 
-            $this->db->trans_complete(); # Completing transaction
-            /* Optional */
+            // $this->db->trans_complete(); # Completing transaction
+            // /* Optional */
 
-            if ($this->db->trans_status() === false) {
-                # Something went wrong.
-                $this->db->trans_rollback();
-                return false;
-            } else {
-                //return $return_value;
-            }
+            // if ($this->db->trans_status() === false) {
+            //     # Something went wrong.
+            //     $this->db->trans_rollback();
+            //     return false;
+            // } else {
+            //     //return $return_value;
+            // }
+
         } else {
             $this->db->insert('classes', $data);
             $class_id = $this->db->insert_id();
@@ -69,16 +74,17 @@ class Classsection_model extends MY_Model {
             $this->log($message, $record_id, $action);
             //======================Code End==============================
 
-            $this->db->trans_complete(); # Completing transaction
-            /* Optional */
+            // $this->db->trans_complete(); # Completing transaction
+            // /* Optional */
 
-            if ($this->db->trans_status() === false) {
-                # Something went wrong.
-                $this->db->trans_rollback();
-                return false;
-            } else {
-                //return $return_value;
-            }
+            // if ($this->db->trans_status() === false) {
+            //     # Something went wrong.
+            //     $this->db->trans_rollback();
+            //     return false;
+            // } else {
+            //     //return $return_value;
+            // }
+            
         }
 
         $sections_array = array();
@@ -87,6 +93,7 @@ class Classsection_model extends MY_Model {
             $vehicle_array = array(
                 'class_id' => $class_id,
                 'section_id' => $vec_value,
+                'sch_id'=>  $sch_id
             );
 
             $sections_array[] = $vehicle_array;
@@ -123,6 +130,52 @@ class Classsection_model extends MY_Model {
     }
 
     public function getByID($id = null) {
+        $this->db->select('classes.*')->from('classes');
+
+        if ($id != null) {
+            $this->db->where('classes.sch_id', $id);
+        } else {
+            // echo "tttttt";die;
+            $this->db->order_by('classes.id', 'DESC');
+        }
+
+        $query = $this->db->get();
+        if ($id != null) {
+            $vehicle_routes = $query->result_array();
+
+            // print_r( $vehicle_routes);
+
+            $array = array();
+            if (!empty($vehicle_routes)) {
+                foreach ($vehicle_routes as $vehicle_key => $vehicle_value) {
+                    $vec_route = new stdClass();
+                    $vec_route->id = $vehicle_value['id'];
+
+                    $vec_route->class = $vehicle_value['class'];
+                    $vec_route->vehicles = $this->getVechileByRoute($vehicle_value['id']);
+                    $array[] = $vec_route;
+                }
+            }
+            return $array;
+        } else {
+            $vehicle_routes = $query->result_array();
+            $array = array();
+            if (!empty($vehicle_routes)) {
+                foreach ($vehicle_routes as $vehicle_key => $vehicle_value) {
+
+                    $vec_route = new stdClass();
+                    $vec_route->id = $vehicle_value['id'];
+                    $vec_route->class = $vehicle_value['class'];
+
+                    $vec_route->vehicles = $this->getVechileByRoute($vehicle_value['id']);
+                    $array[] = $vec_route;
+                }
+            }
+            return $array;
+        }
+    }
+
+    public function getByID_edit($id = null) {
         $this->db->select('classes.*')->from('classes');
 
         if ($id != null) {
