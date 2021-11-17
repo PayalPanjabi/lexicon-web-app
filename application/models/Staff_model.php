@@ -6,6 +6,8 @@ class Staff_model extends MY_Model
     public function __construct()
     {
         parent::__construct();
+        $this->load->library('session');
+
     }
 
     public function get($id = null)
@@ -244,12 +246,14 @@ class Staff_model extends MY_Model
 
     public function batchInsert($data, $roles = array(), $leave_array = array(), $data_setting = array())
     {
-
+        // print($data);die;
         $this->db->trans_start();
         $this->db->trans_strict(false);
 
         $this->db->insert('staff', $data);
         $staff_id          = $this->db->insert_id();
+        // echo "insert id";
+      
         $roles['staff_id'] = $staff_id;
         $this->db->insert_batch('staff_roles', array($roles));
         if (!empty($data_setting)) {
@@ -496,10 +500,39 @@ class Staff_model extends MY_Model
         $query = $this->db->get();
         if ($id != null) {
             return $query->row_array();
+            
         } else {
             return $query->result_array();
         }
     }
+
+    // 
+    // public function getStaffRole_by_school($id = null)
+    // {
+
+    //     $userdata = $this->customlib->getUserData();
+    //     if ($userdata["role_id"] != 7) {
+    //         $this->db->where("id !=", 7);
+    //     }
+
+    //     $this->db->select('roles.id,roles.name as type')->from('roles');
+    //     if ($id != null) {
+    //         $this->db->where('sch_id', $id);
+    //     } else {
+    //         $this->db->order_by('id');
+    //     }
+    //     $this->db->where("is_active", "yes");
+    //     $query = $this->db->get();
+    //     if ($id != null) {
+    //         return $query->row_array();
+            
+    //     } else {
+    //         return $query->result_array();
+    //     }
+    // }
+
+
+    // 
 
     public function count_leave($month, $year, $staff_id)
     {
@@ -537,6 +570,7 @@ class Staff_model extends MY_Model
         $i             = 1;
         $custom_fields = $this->customfield_model->get_custom_fields('staff', 1);
 
+
         $field_k_array = array();
         $join_array    = "";
         if (!empty($custom_fields)) {
@@ -563,7 +597,10 @@ class Staff_model extends MY_Model
             $this->db->or_where('class_teacher.class_id', $student_current_class->class_id);
         }
 
-        $this->db->where("staff.is_active", $active);      
+        $this->db->where("staff.is_active", $active);   
+        $admin = $this->session->userdata('admin');
+        $school_id = $admin['sch_id'];   
+        $this->db->where("staff.sch_id", $school_id);      
 
         $this->db->where("roles.id", $role);
         $query = $this->db->get();
@@ -642,11 +679,14 @@ class Staff_model extends MY_Model
 
                 $i++;
             }
-        }
+        } 
        
         $field_var = count($field_k_array) > 0 ? "," . implode(',', $field_k_array) : "";
 
-        $query = "SELECT `staff`.*, `staff_designation`.`designation` as `designation`, `department`.`department_name` as `department`,`roles`.`name` as user_type " . $field_var . "  FROM `staff` " . $join_array . " LEFT JOIN `staff_designation` ON `staff_designation`.`id` = `staff`.`designation` LEFT JOIN `staff_roles` ON `staff_roles`.`staff_id` = `staff`.`id` LEFT JOIN `roles` ON `staff_roles`.`role_id` = `roles`.`id` LEFT JOIN `department` ON `department`.`id` = `staff`.`department` WHERE  `staff`.`is_active` = '$active' and (CONCAT(`staff`.`name`,' ',`staff`.`surname`) LIKE '%".$this->db->escape_like_str($searchterm)."%' ESCAPE '!' OR `staff`.`surname` LIKE '%".$this->db->escape_like_str($searchterm)."%' ESCAPE '!' OR `staff`.`employee_id` LIKE '%".$this->db->escape_like_str($searchterm)."%' ESCAPE '!' OR `staff`.`local_address` LIKE '%".$this->db->escape_like_str($searchterm)."%' ESCAPE '!'  OR `staff`.`contact_no` LIKE '%".$this->db->escape_like_str($searchterm)."%' ESCAPE '!' OR `staff`.`email` LIKE '%".$this->db->escape_like_str($searchterm)."%' ESCAPE '!' OR `roles`.`name` LIKE '%".$this->db->escape_like_str($searchterm)."' ESCAPE '!')";
+          $admin = $this->session->userdata('admin');
+        $school_id = $admin['sch_id']; 
+
+        $query = "SELECT `staff`.*, `staff_designation`.`designation` as `designation`, `department`.`department_name` as `department`,`roles`.`name` as user_type " . $field_var . "  FROM `staff` " . $join_array . " LEFT JOIN `staff_designation` ON `staff_designation`.`id` = `staff`.`designation` LEFT JOIN `staff_roles` ON `staff_roles`.`staff_id` = `staff`.`id` LEFT JOIN `roles` ON `staff_roles`.`role_id` = `roles`.`id` LEFT JOIN `department` ON `department`.`id` = `staff`.`department` WHERE  `staff`.`sch_id` = '$school_id' and (CONCAT(`staff`.`name`,' ',`staff`.`surname`) LIKE '%".$this->db->escape_like_str($searchterm)."%' ESCAPE '!' OR `staff`.`surname` LIKE '%".$this->db->escape_like_str($searchterm)."%' ESCAPE '!' OR `staff`.`employee_id` LIKE '%".$this->db->escape_like_str($searchterm)."%' ESCAPE '!' OR `staff`.`local_address` LIKE '%".$this->db->escape_like_str($searchterm)."%' ESCAPE '!'  OR `staff`.`contact_no` LIKE '%".$this->db->escape_like_str($searchterm)."%' ESCAPE '!' OR `staff`.`email` LIKE '%".$this->db->escape_like_str($searchterm)."%' ESCAPE '!' OR `roles`.`name` LIKE '%".$this->db->escape_like_str($searchterm)."' ESCAPE '!')";
 
         $query = $this->db->query($query);
         return $query->result_array();

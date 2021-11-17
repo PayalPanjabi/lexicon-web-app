@@ -778,6 +778,8 @@ class Student_model extends MY_Model
     public function add($data, $data_setting = array())
     {
 
+        // print_r($data);die;
+
         if (isset($data['id'])) {
             $this->db->where('id', $data['id']);
             $this->db->update('students', $data);
@@ -808,8 +810,8 @@ class Student_model extends MY_Model
 
     public function add_student_sibling($data_sibling)
     {
-        $this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+        // $this->db->trans_start(); # Starting Transaction
+        // $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
         if (isset($data['id'])) {
             $this->db->where('id', $data['id']);
@@ -830,22 +832,22 @@ class Student_model extends MY_Model
         }
         //======================Code End==============================
 
-        $this->db->trans_complete(); # Completing transaction
-        /* Optional */
+        // $this->db->trans_complete(); # Completing transaction
+        // /* Optional */
 
-        if ($this->db->trans_status() === false) {
-            # Something went wrong.
-            $this->db->trans_rollback();
-            return false;
-        } else {
-            return $insert_id;
-        }
+        // if ($this->db->trans_status() === false) {
+        //     # Something went wrong.
+        //     $this->db->trans_rollback();
+        //     return false;
+        // } else {
+        //     return $insert_id;
+        // }
     }
 
     public function add_student_session($data)
     {
-        $this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+        // $this->db->trans_start(); # Starting Transaction
+        // $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
         $this->db->where('session_id', $data['session_id']);
         $this->db->where('student_id', $data['student_id']);
@@ -868,16 +870,16 @@ class Student_model extends MY_Model
         }
         //======================Code End==============================
 
-        $this->db->trans_complete(); # Completing transaction
-        /* Optional */
+        // $this->db->trans_complete(); # Completing transaction
+        // /* Optional */
 
-        if ($this->db->trans_status() === false) {
-            # Something went wrong.
-            $this->db->trans_rollback();
-            return false;
-        } else {
-            return true;
-        }
+        // if ($this->db->trans_status() === false) {
+        //     # Something went wrong.
+        //     $this->db->trans_rollback();
+        //     return false;
+        // } else {
+        //     return true;
+        // }
     }
 
     public function add_student_session_update($data)
