@@ -243,6 +243,8 @@ class Student extends Admin_Controller
         $genderList                 = $this->customlib->getGender();
         $data['genderList']         = $genderList;
         $data['sch_setting']        = $this->sch_setting_detail;
+
+        // print_r($data['sch_setting'] );die;
         $data['title']              = 'Add Student';
         $data['title_list']         = 'Recently Added Student';
         $data['adm_auto_insert']    = $this->sch_setting_detail->adm_auto_insert;
@@ -488,9 +490,14 @@ class Student extends Admin_Controller
                 $data_insert['mother_occupation'] = $this->input->post('mother_occupation');
             }
 
+            $admin = $this->session->userdata('admin');
+            $school_id = $admin['sch_id'];
+            $data_insert['sch_id'] = $school_id;
+           
             $insert                            = true;
             $data_setting                      = array();
             $data_setting['id']                = $this->sch_setting_detail->id;
+            // print_r($data_setting['id']);
             $data_setting['adm_auto_insert']   = $this->sch_setting_detail->adm_auto_insert;
             $data_setting['adm_update_status'] = $this->sch_setting_detail->adm_update_status;
             $admission_no                      = 0;
@@ -528,7 +535,9 @@ class Student extends Admin_Controller
                     'section_id'    => $section_id,
                     'session_id'    => $session,
                     'fees_discount' => $fees_discount,
+                    'sch_id' => $school_id,
                 );
+                
                 $this->student_model->add_student_session($data_new);
                 $user_password = $this->role->get_random_password($chars_min = 6, $chars_max = 6, $use_upper_case = false, $include_numbers = true, $include_special_chars = false);
 
@@ -538,6 +547,8 @@ class Student extends Admin_Controller
                     'password' => $user_password,
                     'user_id'  => $insert_id,
                     'role'     => 'student',
+                    'sch_id' => $school_id,
+
                 );
 
                 $this->user_model->add($data_student_login);
@@ -1533,8 +1544,10 @@ class Student extends Admin_Controller
         $data['adm_auto_insert'] = $this->sch_setting_detail->adm_auto_insert;
         $data['sch_setting']     = $this->sch_setting_detail;
         $data['fields']          = $this->customfield_model->get_custom_fields('students', 1);
-        $class                   = $this->class_model->get();
+        $class                   = $this->class_model->get_class_by_school();
         $data['classlist']       = $class;
+
+        // print_r( $data['classlist']);die;
 
         $userdata = $this->customlib->getUserData();
         $carray   = array();

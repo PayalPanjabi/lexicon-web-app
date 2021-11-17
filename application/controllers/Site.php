@@ -51,7 +51,6 @@ class Site extends Public_Controller
         if ($this->auth->logged_in()) {
             $this->auth->is_logged_in(true);
         }
-
         $data          = array();
         $data['title'] = 'Login';
         $school        = $this->setting_model->get();
@@ -79,13 +78,20 @@ class Site extends Public_Controller
                 'password' => $this->input->post('password'),
             );
             $data['captcha_image'] = $this->captchalib->generate_captcha()['image'];
-            $setting_result        = $this->setting_model->get();
             $result                = $this->staff_model->checkLogin($login_post);
+            $school_id = $result->sch_id;
 
+            $setting_result        = $this->setting_model->get($school_id);
+
+            // echo "staff id";
+            // print_r($setting_result['phone']);
+
+            // die;
+               
             if (!empty($result->language_id)) {
                 $lang_array = array('lang_id' => $result->language_id, 'language' => $result->language);
             } else {
-                $lang_array = array('lang_id' => $setting_result[0]['lang_id'], 'language' => $setting_result[0]['language']);
+                $lang_array = array('lang_id' => $setting_result['lang_id'], 'language' => $setting_result['language']);
             }
 
             if ($result) {
@@ -98,20 +104,21 @@ class Site extends Public_Controller
 
                     $session_data = array(
                         'id'              => $result->id,
+                        'sch_id'          => $setting_result['id'],
                         'username'        => $logusername,
                         'email'           => $result->email,
                         'roles'           => $result->roles,
-                        'date_format'     => $setting_result[0]['date_format'],
-                        'currency_symbol' => $setting_result[0]['currency_symbol'],
-                        'currency_place'  => $setting_result[0]['currency_place'],
-                        'start_month'     => $setting_result[0]['start_month'],
-                        'start_week'      => date("w", strtotime($setting_result[0]['start_week'])),
-                        'school_name'     => $setting_result[0]['name'],
-                        'timezone'        => $setting_result[0]['timezone'],
-                        'sch_name'        => $setting_result[0]['name'],
+                        'date_format'     => $setting_result['date_format'],
+                        'currency_symbol' => $setting_result['currency_symbol'],
+                        'currency_place'  => $setting_result['currency_place'],
+                        'start_month'     => $setting_result['start_month'],
+                        'start_week'      => date("w", strtotime($setting_result['start_week'])),
+                        'school_name'     => $setting_result['name'],
+                        'timezone'        => $setting_result['timezone'],
+                        'sch_name'        => $setting_result['name'],
                         'language'        => $lang_array,
-                        'is_rtl'          => $setting_result[0]['is_rtl'],
-                        'theme'           => $setting_result[0]['theme'],
+                        'is_rtl'          => $setting_result['is_rtl'],
+                        'theme'           => $setting_result['theme'],
                         'gender'          => $result->gender,
                     );
                     $language_result1 = $this->language_model->get($lang_array['lang_id']);

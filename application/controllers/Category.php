@@ -10,6 +10,7 @@ class Category extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->library('session');
     }
 
     public function index()
@@ -20,7 +21,10 @@ class Category extends Admin_Controller
         $this->session->set_userdata('top_menu', 'Student Information');
         $this->session->set_userdata('sub_menu', 'category/index');
         $data['title']        = 'Category List';
-        $category_result      = $this->category_model->get();
+        $admin = $this->session->userdata('admin');
+        $school_id = $admin['sch_id'];
+        $category_result      = $this->category_model->get_record_by_sch($school_id);
+        // print_r($category_result);die;
         $data['categorylist'] = $category_result;
         $this->load->view('layout/header', $data);
         $this->load->view('category/categoryList', $data);
@@ -29,6 +33,8 @@ class Category extends Admin_Controller
 
     public function view($id)
     {
+
+        // echo "tetststst";die;
         if (!$this->rbac->hasPrivilege('student_categories', 'can_view')) {
             access_denied();
         }
@@ -53,6 +59,7 @@ class Category extends Admin_Controller
 
     public function create()
     {
+        
         if (!$this->rbac->hasPrivilege('student_categories', 'can_add')) {
             access_denied();
         }
@@ -65,9 +72,16 @@ class Category extends Admin_Controller
             $this->load->view('category/categoryList', $data);
             $this->load->view('layout/footer', $data);
         } else {
+
+            $admin = $this->session->userdata('admin');
+            $school_id = $admin['sch_id'];
+            // $data_insert['sch_id'] = $school_id;
+
             $data = array(
                 'category' => $this->input->post('category'),
+                'sch_id' =>  $school_id,
             );
+
             $this->category_model->add($data);
             $this->session->set_flashdata('msg', '<div class="alert alert-success text-left">' . $this->lang->line('success_message') . '</div>');
             redirect('category/index');

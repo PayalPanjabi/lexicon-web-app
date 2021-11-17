@@ -10,6 +10,8 @@ class Classes extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->library('session');
+
     }
 
     public function index()
@@ -33,18 +35,28 @@ class Classes extends Admin_Controller
         if ($this->form_validation->run() == false) {
 
         } else {
+
+            $admin = $this->session->userdata('admin');
+            $school_id = $admin['sch_id'];
+
             $class       = $this->input->post('class');
             $class_array = array(
                 'class' => $this->input->post('class'),
+                'sch_id' => $school_id,
+
             );
             $sections = $this->input->post('sections');
             $this->classsection_model->add($class_array, $sections);
             $this->session->set_flashdata('msg', '<div class="alert alert-success text-left">' . $this->lang->line('success_message') . '</div>');
             redirect('classes');
         }
+        $admin = $this->session->userdata('admin');
+         $school_id = $admin['sch_id'];
+         
         $vehicle_result       = $this->section_model->get();
         $data['vehiclelist']  = $vehicle_result;
-        $vehroute_result      = $this->classsection_model->getByID();
+        $vehroute_result      = $this->classsection_model->getByID($school_id);
+        // print_r( $vehroute_result);die;
         $data['vehroutelist'] = $vehroute_result;
         $this->load->view('layout/header', $data);
         $this->load->view('class/classList', $data);
@@ -70,7 +82,7 @@ class Classes extends Admin_Controller
         $this->session->set_userdata('sub_menu', 'classes/index');
         $data['title']      = 'Edit Class';
         $data['id']         = $id;
-        $vehroute           = $this->classsection_model->getByID($id);
+        $vehroute           = $this->classsection_model->getByID_edit($id);
         $data['vehroute']   = $vehroute;
         $data['title_list'] = 'Fees Master List';
 

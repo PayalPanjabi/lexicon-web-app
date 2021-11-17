@@ -5,7 +5,8 @@ if (!defined('BASEPATH')) {
 } 
 
 class Admin extends Admin_Controller
-{
+{     
+    
 
     public function __construct()
     {
@@ -13,6 +14,8 @@ class Admin extends Admin_Controller
         $this->load->model("classteacher_model");
         $this->load->model("Staff_model");
         $this->load->library('Enc_lib');
+        $this->load->library('session');
+
         $this->sch_setting_detail = $this->setting_model->getSetting();
 
     }
@@ -79,7 +82,7 @@ class Admin extends Admin_Controller
         }
 
         $data['total_students'] = $total_students;
-
+        
         $tot_roles = $this->role_model->get();
 
         foreach ($tot_roles as $key => $value) {
@@ -87,7 +90,10 @@ class Admin extends Admin_Controller
             $count_roles[$value["name"]] = $this->role_model->count_roles($value["id"]);
 
         }
+
         $data["roles"] = $count_roles;
+
+        // print_r($data["roles"]);die;       
 
         //======================== get collection by month ==========================
         $start_month = strtotime($year_str_month);

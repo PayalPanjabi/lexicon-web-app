@@ -10,6 +10,8 @@ class Sections extends Admin_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->library('session');
+
     }
 
     public function index()
@@ -20,8 +22,11 @@ class Sections extends Admin_Controller
         $this->session->set_userdata('top_menu', 'Academics');
         $this->session->set_userdata('sub_menu', 'sections/index');
         $data['title'] = 'Section List';
-
-        $section_result      = $this->section_model->get();
+        $admin = $this->session->userdata('admin');
+        $school_id = $admin['sch_id'];
+        // print_r($school_id);die;
+        $section_result      = $this->section_model->get($school_id);
+        // print_r($section_result );die;
         $data['sectionlist'] = $section_result;
         $this->form_validation->set_rules('section', $this->lang->line('section'), 'trim|required|xss_clean');
         if ($this->form_validation->run() == false) {
@@ -29,9 +34,14 @@ class Sections extends Admin_Controller
             $this->load->view('section/sectionList', $data);
             $this->load->view('layout/footer', $data);
         } else {
+            $admin = $this->session->userdata('admin');
+            $school_id = $admin['sch_id'];
             $data = array(
                 'section' => $this->input->post('section'),
+                'sch_id' =>  $school_id,
             );
+
+            //  print_r($data);die;    
             $this->section_model->add($data);
             $this->session->set_flashdata('msg', '<div class="alert alert-success text-left">' . $this->lang->line('success_message') . '</div>');
             redirect('sections/index');
@@ -56,6 +66,7 @@ class Sections extends Admin_Controller
         if (!$this->rbac->hasPrivilege('section', 'can_delete')) {
             access_denied();
         }
+        // echo"delete";die;
         $data['title'] = 'Section List';
         $this->section_model->remove($id);
         redirect('sections/index');
@@ -100,7 +111,7 @@ class Sections extends Admin_Controller
         $data['sectionlist'] = $section_result;
         $data['title']       = 'Edit Section';
         $data['id']          = $id;
-        $section             = $this->section_model->get($id);
+        $section             = $this->section_model->get_edit($id);
         $data['section']     = $section;
         $this->form_validation->set_rules('section', $this->lang->line('section'), 'trim|required|xss_clean');
         if ($this->form_validation->run() == false) {
