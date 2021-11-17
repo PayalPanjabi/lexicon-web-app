@@ -8,6 +8,8 @@ class Role_model extends MY_Model {
     public function __construct() {
         parent::__construct();
         $this->current_session = $this->setting_model->getCurrentSession();
+        $this->load->library('session');
+
     }
 
     /**
@@ -18,10 +20,10 @@ class Role_model extends MY_Model {
      */
     public function get($id = null) {
         $userdata = $this->customlib->getUserData();
+
         if ($userdata["role_id"] != 7) {
             $this->db->where("id !=", 7);
         }
-
 
         $this->db->select()->from('roles');
         if ($id != null) {
@@ -70,8 +72,8 @@ class Role_model extends MY_Model {
      * @param $data
      */
     public function add($data) {
-        $this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+        // $this->db->trans_start(); # Starting Transaction
+        // $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
         if (isset($data['id'])) {
             $this->db->where('id', $data['id']);
@@ -82,16 +84,16 @@ class Role_model extends MY_Model {
             $this->log($message, $record_id, $action);
             //======================Code End==============================
 
-            $this->db->trans_complete(); # Completing transaction
-            /* Optional */
+            // $this->db->trans_complete(); # Completing transaction
+            // /* Optional */
 
-            if ($this->db->trans_status() === false) {
-                # Something went wrong.
-                $this->db->trans_rollback();
-                return false;
-            } else {
-                //return $return_value;
-            }
+            // if ($this->db->trans_status() === false) {
+            //     # Something went wrong.
+            //     $this->db->trans_rollback();
+            //     return false;
+            // } else {
+            //     //return $return_value;
+            // }
         } else {
             $this->db->insert('roles', $data);
             $insert_id = $this->db->insert_id();
@@ -104,13 +106,13 @@ class Role_model extends MY_Model {
             $this->db->trans_complete(); # Completing transaction
             /* Optional */
 
-            if ($this->db->trans_status() === false) {
-                # Something went wrong.
-                $this->db->trans_rollback();
-                return false;
-            } else {
-                //return $return_value;
-            }
+            // if ($this->db->trans_status() === false) {
+            //     # Something went wrong.
+            //     $this->db->trans_rollback();
+            //     return false;
+            // } else {
+            //     //return $return_value;
+            // }
             return $insert_id;
         }
     }
@@ -197,7 +199,10 @@ class Role_model extends MY_Model {
 
     public function count_roles($id) {
 
-        $query = $this->db->select("*")->join("staff", "staff.id = staff_roles.staff_id")->where("staff_roles.role_id", $id)->where("staff.is_active", 1)->get("staff_roles");
+        $admin = $this->session->userdata('admin');
+        $school_id = $admin['sch_id'];
+
+        $query = $this->db->select("*")->join("staff", "staff.id = staff_roles.staff_id")->where("staff_roles.role_id", $id)->where("staff.is_active", 1)->where("staff.sch_id", $school_id)->get("staff_roles");
 
         return $query->num_rows();
     }
