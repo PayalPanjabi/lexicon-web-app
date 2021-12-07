@@ -21,6 +21,8 @@ class Student extends Admin_Controller
         $this->blood_group        = $this->config->item('bloodgroup');
         $this->sch_setting_detail = $this->setting_model->getSetting();
         $this->role;
+        $this->load->library('session');
+
     }
 
     public function index()
@@ -1010,6 +1012,10 @@ class Student extends Admin_Controller
 
                                 $student_data[$i]['is_active'] = 'yes';
 
+                                $admin = $this->session->userdata('admin');
+                                $school_id = $admin['sch_id'];  
+                                $student_data[$i]['sch_id'] = $school_id;
+
                                 if (date('Y-m-d', strtotime($result[$i]['date_of_birth'])) === $result[$i]['date_of_birth']) {
                                     $student_data[$i]['dob'] = date('Y-m-d', strtotime($result[$i]['date_of_birth']));
                                 } else {
@@ -1029,6 +1035,7 @@ class Student extends Admin_Controller
                                 }
                                 $n++;
                             }
+                           
 
                             $roll_no                           = $student_data[$i]["roll_no"];
                             $adm_no                            = $student_data[$i]["admission_no"];

@@ -9,6 +9,8 @@ class Class_model extends MY_Model {
     public function __construct() {
         parent::__construct();
         $this->current_session = $this->setting_model->getCurrentSession();
+        $this->load->library('session');
+
     }
 
     /**
@@ -37,6 +39,10 @@ class Class_model extends MY_Model {
 
     public function get($id = null, $classteacher = null) {
 
+        $admin = $this->session->userdata('admin');
+            $id = $admin['sch_id'];
+
+
         $userdata = $this->customlib->getUserData();
         $role_id = $userdata["role_id"];
         $carray = array();
@@ -49,13 +55,13 @@ class Class_model extends MY_Model {
 
             $this->db->select()->from('classes');
             if ($id != null) {
-                $this->db->where('id', $id);
+                $this->db->where('sch_id', $id);
             } else {
-                $this->db->order_by('id');
+                $this->db->order_by('sch_id');
             }
             $query = $this->db->get();
             if ($id != null) {
-                $classlist = $query->row_array();
+                $classlist = $query->result_array();
             } else {
                 $classlist = $query->result_array();
             }

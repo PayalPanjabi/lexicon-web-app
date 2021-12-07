@@ -778,7 +778,7 @@ class Student_model extends MY_Model
     public function add($data, $data_setting = array())
     {
 
-        // print_r($data);die;
+        //  print_r($data);die;
 
         if (isset($data['id'])) {
             $this->db->where('id', $data['id']);

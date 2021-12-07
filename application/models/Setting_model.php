@@ -262,8 +262,11 @@ class Setting_model extends MY_Model {
     }
 
     public function getCurrentSchoolName() {
-        $session_result = $this->get();
-        return $session_result[0]['name'];
+
+        $admin = $this->session->userdata('admin');
+        $school_id = $admin['sch_id'];
+        $session_result = $this->get($school_id);
+        return $session_result['name'];
     }
 
     public function getStartMonth() {
