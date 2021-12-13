@@ -93,7 +93,7 @@
                                         </form>
                                         <a href="<?php echo site_url('site/forgotpassword') ?>" class="forgot"><i class="fa fa-key"></i> <?php echo $this->lang->line('forgot_password'); ?>?</a>
                                         <div class="form-horizontal">
-                                            <h3>Copyright © 2021 Powered by Codexxa</h3>
+                                            <h3>Copyright © 2021 Powered by lexicon</h3>
                                         </div>
                                     </div>
 
