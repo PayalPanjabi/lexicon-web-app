@@ -11,6 +11,7 @@ class Studentsession_model extends CI_Model
     {
         parent::__construct();
         $this->current_session = $this->setting_model->getCurrentSession();
+        $this->load->library('session');
     }
 
     public function searchStudents($class_id = null, $section_id = null, $key = null)
@@ -83,7 +84,10 @@ class Studentsession_model extends CI_Model
 
     public function getTotalStudentBySession()
     {
-        $query = "SELECT count(*) as `total_student` FROM `student_session` INNER JOIN students on students.id=student_session.student_id where student_session.session_id=" . $this->db->escape($this->current_session) . " and students.is_active = 'yes' ";
+        $admin = $this->session->userdata('admin');
+        $school_id = $admin['sch_id'];
+        $query = "SELECT count(*) as `total_student` FROM `student_session` INNER JOIN students on students.id=student_session.student_id where student_session.session_id=" . $this->db->escape($this->current_session) . " and students.is_active = 'yes' and students.sch_id =  $school_id ";
+        // $this->db->where('id', $id);
         $query = $this->db->query($query);
         return $query->row();
     }

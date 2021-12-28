@@ -619,14 +619,19 @@ class Staff_model extends MY_Model
 
     public function getStaffDesignation()
     {
-
-        $query = $this->db->select('*')->where("is_active", "yes")->get("staff_designation");
+        $admin = $this->session->userdata('admin');
+        $school_id = $admin['sch_id'];
+        $data = array('is_active' => 'yes','sch_id' => $school_id);
+        $query = $this->db->select('*')->where($data)->get("staff_designation");
         return $query->result_array();
     }
 
     public function getDepartment()
     {
-        $query = $this->db->select('*')->where("is_active", "yes")->get('department');
+        $admin = $this->session->userdata('admin');
+        $school_id = $admin['sch_id'];
+        $data = array('is_active' => 'yes','sch_id' => $school_id);
+        $query = $this->db->select('*')->where($data)->get('department');
         return $query->result_array();
     }
 
