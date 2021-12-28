@@ -11,12 +11,13 @@ class Student_edit_field_model extends MY_Model {
     }
 
     public function add($record) {
-        $this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+        // $this->db->trans_start(); # Starting Transaction
+        // $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
 
         $this->db->where('name', $record['name']);
         $q = $this->db->get('student_edit_fields');
 
+        
         if ($q->num_rows() > 0) {
             $results = $q->row();
             $this->db->where('id', $results->id);
@@ -35,11 +36,11 @@ class Student_edit_field_model extends MY_Model {
             $this->log($message, $record_id, $action);
         }
 
-        if ($this->db->trans_status() === false) {
-            $this->db->trans_rollback();
-        } else {
-            $this->db->trans_commit();
-        }
+        // if ($this->db->trans_status() === false) {
+        //     $this->db->trans_rollback();
+        // } else {
+        //     $this->db->trans_commit();
+        // }
     }
 
     public function get() {

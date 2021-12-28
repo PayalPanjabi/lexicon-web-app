@@ -192,6 +192,7 @@ class Setting_model extends MY_Model {
         // $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
         if (isset($data['id'])) {
+            // print_r($data['id']);die;
             $this->db->where('id', $data['id']);
             $this->db->update('sch_settings', $data);
             $message = UPDATE_RECORD_CONSTANT . " On settings id " . $data['id'];
