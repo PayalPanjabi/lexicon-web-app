@@ -14,13 +14,16 @@ class Systemfield extends Admin_Controller {
         $this->load->model("student_edit_field_model");
         $this->custom_fields_list = $this->config->item('custom_fields');
         $this->custom_field_table = $this->config->item('custom_field_table');
+        $this->load->library('session');
+
     }
 
     public function index() {
         $this->session->set_userdata('top_menu', 'System Settings');
         $this->session->set_userdata('sub_menu', 'System Settings/systemfield');
         $data['result'] = $this->setting_model->getSetting();
-
+        // echo "<pre>";
+        // print_r($data['result']);die;
         $this->load->view('layout/header');
         $this->load->view('admin/systemfield/index', $data);
         $this->load->view('layout/footer');
@@ -28,7 +31,10 @@ class Systemfield extends Admin_Controller {
 
     public function changeStatus() {
 
-        $id = $this->input->post('id');
+
+        $admin = $this->session->userdata('admin');
+            $school_id = $admin['sch_id'];
+        $id =  $school_id;
         $status = $this->input->post('status');
         $role = $this->input->post('role');
 

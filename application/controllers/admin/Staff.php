@@ -1574,7 +1574,8 @@ class Staff extends Admin_Controller
 
                             $check_exists      = $this->staff_model->import_check_data_exists($result[$r_key]['name'], $result[$r_key]['employee_id']);
                             $check_emailexists = $this->staff_model->import_check_email_exists($result[$r_key]['name'], $result[$r_key]['employee_id']);
-
+                            $admin = $this->session->userdata('admin');
+                            $school_id = $admin['sch_id'];
                             if ($check_exists == 0 && $check_emailexists == 0) {
 
                                 $result[$r_key]['employee_id']          = $this->encoding_lib->toUTF8($result[$r_key]['employee_id']);
@@ -1616,6 +1617,8 @@ class Staff extends Admin_Controller
                                 $result[$r_key]['designation']          = $this->input->post('designation');
                                 $result[$r_key]['department']           = $this->input->post('department');
                                 $result[$r_key]['is_active']            = 1;
+                                $result[$r_key]['sch_id']            = $school_id;
+
 
                                 $password = $this->role->get_random_password($chars_min = 6, $chars_max = 6, $use_upper_case = false, $include_numbers = true, $include_special_chars = false);
 

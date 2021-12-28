@@ -14,6 +14,8 @@ class Designation extends Admin_Controller {
 
         $this->load->model('designation_model');
         $this->load->model('staff_model');
+        $this->load->library('session');
+
     }
 
     function designation() {
@@ -51,6 +53,9 @@ class Designation extends Admin_Controller {
 
                 $data = array('designation' => $type, 'is_active' => 'yes');
             }
+            $admin = $this->session->userdata('admin');
+            $school_id = $admin['sch_id'];
+            $data['sch_id']=$school_id;
             $insert_id = $this->designation_model->addDesignation($data);
             $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');
             redirect("admin/designation/designation");
