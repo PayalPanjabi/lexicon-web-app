@@ -199,8 +199,8 @@ class Student extends Admin_Controller
         if ($student['is_active'] = 'no') {
             $data['reason_data'] = $this->disable_reason_model->get($student['dis_reason']);
         }
-  $data['exam_result']          = $this->examgroupstudent_model->searchStudentExams($student['student_session_id'], true, true);
-      $data['exam_grade']           = $this->grade_model->getGradeDetails();
+        $data['exam_result']          = $this->examgroupstudent_model->searchStudentExams($student['student_session_id'], true, true);
+        $data['exam_grade']           = $this->grade_model->getGradeDetails();
 
         $this->load->view('layout/header', $data);
         $this->load->view('student/studentShow', $data);
@@ -968,8 +968,10 @@ class Student extends Admin_Controller
         $userdata           = $this->customlib->getUserData();
 
         $category = $this->category_model->get();
+        // $fields = array('firstname','middlename','lastname','admission_no','admission_date','gender','dob','birth_place','nationality','mother_tongue','category_id', 'religion','cast','blood_group','school_house_id','roll_no','mobileno','email','height', 'weight', 'measurement_date', 'father_name', 'father_phone', 'father_occupation', 'mother_name', 'mother_phone', 'mother_occupation', 'guardian_is', 'guardian_name', 'guardian_relation', 'guardian_email', 'guardian_phone', 'guardian_occupation', 'guardian_address', 'current_address', 'permanent_address', 'bank_account_no', 'bank_name', 'ifsc_code', 'adhar_no', 'samagra_id', 'rte', 'previous_school', 'note');
 
-        $fields = array('admission_no', 'roll_no', 'firstname', 'middlename', 'lastname', 'gender', 'dob', 'category_id', 'religion', 'cast', 'mobileno', 'email', 'admission_date', 'blood_group', 'school_house_id', 'height', 'weight', 'measurement_date', 'father_name', 'father_phone', 'father_occupation', 'mother_name', 'mother_phone', 'mother_occupation', 'guardian_is', 'guardian_name', 'guardian_relation', 'guardian_email', 'guardian_phone', 'guardian_occupation', 'guardian_address', 'current_address', 'permanent_address', 'bank_account_no', 'bank_name', 'ifsc_code', 'adhar_no', 'samagra_id', 'rte', 'previous_school', 'note');
+        $fields = array('firstname','middlename','lastname','admission_no','admission_date','gender','dob','birth_place','nationality','mother_tongue','category_id','religion','cast','blood_group','school_house_id','roll_no','medical_problem','birthmark','Siblings',
+        'siblings_classname','annual_income','adhaar_yes_no','adhar_no','father_name','father_middle_name','father_last_name','father_qualification','father_occupation','father_organization','father_designation','father_office_address','father_office_phone','city','state','pincode','father_phone','father_email','mother_name','mother_middle_name','mother_last_name','mother_qualification','mother_occupation','mother_organization','mother_designation','mother_office_address','mother_office_phone','mother_phone','mother_email','email','mobileno','guardian_is','guardian_name','guardian_relation','guardian_email','guardian_phone','guardian_occupation', 'guardian_address', 'current_address', 'permanent_address','bank_account_no','bank_name', 'ifsc_code','samagra_id','rte','previous_school','note','height','weight');
 
         $data["fields"]       = $fields;
         $data['categorylist'] = $category;

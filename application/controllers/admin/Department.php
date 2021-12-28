@@ -48,6 +48,9 @@ class Department extends Admin_Controller {
 
                 $data = array('department_name' => $type, 'is_active' => 'yes');
             }
+            $admin = $this->session->userdata('admin');
+            $school_id = $admin['sch_id'];
+            $data['sch_id']=$school_id;
             $insert_id = $this->department_model->addDepartmentType($data);
             $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');
             redirect("admin/department/department");

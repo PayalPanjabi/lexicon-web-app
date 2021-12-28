@@ -53,7 +53,7 @@ class Classes extends Admin_Controller
         $admin = $this->session->userdata('admin');
          $school_id = $admin['sch_id'];
          
-        $vehicle_result       = $this->section_model->get();
+        $vehicle_result       = $this->section_model->get($school_id);
         $data['vehiclelist']  = $vehicle_result;
         $vehroute_result      = $this->classsection_model->getByID($school_id);
         // print_r( $vehroute_result);die;
