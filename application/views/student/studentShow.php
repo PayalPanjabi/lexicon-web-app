@@ -333,6 +333,14 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                     }
                                                     ?></td>
                                             </tr>
+                                            <tr> <td><?php echo $this->lang->line('birth_place'); ?></td>
+                                            <td><?php echo $student['birth_place']; ?></td>
+
+                                                </tr>
+                                                <tr> <td><?php echo $this->lang->line('nationality'); ?></td>
+                                                <td><?php echo $student['nationality']; ?></td>
+
+                                                </tr>
                                             <?php if ($sch_setting->category) {  ?>
                                             <tr>
                                                 <td><?php echo $this->lang->line('category'); ?></td>
@@ -440,11 +448,45 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                 }
                                                 ?>" ></td>
                                         </tr>
+                                        <tr>
+                                            <td><?php echo $this->lang->line('father_middle_name'); ?></td>
+                                            <td><?php echo $student['father_middle_name']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td><?php echo $this->lang->line('father_last_name'); ?></td>
+                                            <td><?php echo $student['father_last_name']; ?></td>
+                                        </tr>
                                         <?php } if ($sch_setting->father_phone) {  ?>
                                         <tr>
                                             <td><?php echo $this->lang->line('father_phone'); ?></td>
                                             <td><?php echo $student['father_phone']; ?></td>
                                         </tr>
+                                        <tr>
+                                            <td><?php echo $this->lang->line('father_office_phone'); ?></td>
+                                            <td><?php echo $student['father_office_phone']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td><?php echo $this->lang->line('father_organization'); ?></td>
+                                            <td><?php echo $student['father_organization']; ?></td>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td><?php echo $this->lang->line('father_qualification'); ?></td>
+                                            <td><?php echo $student['father_qualification']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td><?php echo $this->lang->line('father_designation'); ?></td>
+                                            <td><?php echo $student['father_designation']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td><?php echo $this->lang->line('father_office_address'); ?></td>
+                                            <td><?php echo $student['father_office_address']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td><?php echo $this->lang->line('pincode'); ?></td>
+                                            <td><?php echo $student['pincode']; ?></td>
+                                        </tr>
+
                                         <?php } if ($sch_setting->father_occupation) { ?>
                                         <tr>
                                             <td><?php echo $this->lang->line('father_occupation'); ?></td>
@@ -462,6 +504,23 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                                 }
                                                 ?>" ></td>
                                         </tr>
+                                        <tr> <td><?php echo $this->lang->line('mother_middle_name'); ?></td>
+                                            <td><?php echo $student['mother_middle_name']; ?></td><tr>
+
+                                            <tr> <td><?php echo $this->lang->line('mother_last_name'); ?></td>
+                                            <td><?php echo $student['mother_last_name']; ?></td><tr>
+
+                                            <tr> <td><?php echo $this->lang->line('mother_qualification'); ?></td>
+                                            <td><?php echo $student['mother_qualification']; ?></td><tr>
+
+                                            <tr> <td><?php echo $this->lang->line('mother_designation'); ?></td>
+                                            <td><?php echo $student['mother_designation']; ?></td><tr>
+
+                                            <tr> <td><?php echo $this->lang->line('mother_office_phone'); ?></td>
+                                            <td><?php echo $student['mother_office_phone']; ?></td><tr>
+
+                                            <tr> <td><?php echo $this->lang->line('mother_office_address'); ?></td>
+                                            <td><?php echo $student['mother_office_address']; ?></td><tr>
                                         <?php } if ($sch_setting->mother_phone) { ?>
                                         <tr>
                                             <td><?php echo $this->lang->line('mother_phone'); ?></td>
