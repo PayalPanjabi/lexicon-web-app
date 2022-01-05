@@ -5,6 +5,8 @@ class Classteacher_model extends MY_Model {
     public function __construct() {
         parent::__construct();
         $this->current_session = $this->setting_model->getCurrentSession();
+        $this->load->library('session');
+
     }
 
     public function getClassTeacher($id = null) {
@@ -16,9 +18,14 @@ class Classteacher_model extends MY_Model {
             return $query->row_array();
         } else {
 
-            $query = $this->db->select('staff.*,class_teacher.id as ctid,classes.class,sections.section')->join("staff", "class_teacher.staff_id = staff.id")->join("classes", "class_teacher.class_id = classes.id")->join("sections", "class_teacher.section_id = sections.id")->get("class_teacher");
+            $admin = $this->session->userdata('admin');
+            $school_id = $admin['sch_id'];
+            // print_r($school_id);die;
+            $query = $this->db->select('staff.*,class_teacher.id as ctid,classes.class,sections.section')->join("staff", "class_teacher.staff_id = staff.id")->join("classes", "class_teacher.class_id = classes.id")->join("sections", "class_teacher.section_id = sections.id")->where("staff.sch_id", $school_id)->get("class_teacher");
+            // echo "<pre>";
+            // print_r($query->result_array());die;
 
-            return $query->row_array();
+            return $query->result_array();
         }
     }
 
@@ -58,8 +65,11 @@ class Classteacher_model extends MY_Model {
 
     function teacherByClassSection($class_id, $section_id) {
 
+        $admin = $this->session->userdata('admin');
+        $school_id = $admin['sch_id'];
+        // print_r($school_id);die;
 
-        $query = $this->db->select('staff.*,class_teacher.id as ctid,class_teacher.class_id,class_teacher.section_id,classes.class,sections.section')->join("staff", "class_teacher.staff_id = staff.id")->join("classes", "class_teacher.class_id = classes.id")->join("sections", "class_teacher.section_id = sections.id")->where("class_teacher.class_id", $class_id)->where("class_teacher.section_id", $section_id)->where("staff.is_active", 1)->where("class_teacher.session_id", $this->current_session)->get("class_teacher");
+        $query = $this->db->select('staff.*,class_teacher.id as ctid,class_teacher.class_id,class_teacher.section_id,classes.class,sections.section')->join("staff", "class_teacher.staff_id = staff.id")->join("classes", "class_teacher.class_id = classes.id")->join("sections", "class_teacher.section_id = sections.id")->where("class_teacher.class_id", $class_id)->where("class_teacher.section_id", $section_id)->where("staff.sch_id", $school_id)->where("staff.is_active", 1)->where("class_teacher.session_id", $this->current_session)->get("class_teacher");
 
         return $query->result_array();
     }

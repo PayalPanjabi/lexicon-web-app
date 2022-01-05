@@ -831,6 +831,8 @@ class Staff_model extends MY_Model
 
     public function getStaffbyrole($id)
     {
+        $admin = $this->session->userdata('admin');
+            $school_id = $admin['sch_id'];
         $this->db->select('staff.*,staff_designation.designation as designation,staff_roles.role_id, department.department_name as department,roles.name as user_type');
         $this->db->join("staff_designation", "staff_designation.id = staff.designation", "left");
         $this->db->join("department", "department.id = staff.department", "left");
@@ -838,6 +840,7 @@ class Staff_model extends MY_Model
         $this->db->join("roles", "staff_roles.role_id = roles.id", "left");
         $this->db->where("staff_roles.role_id", $id);
         $this->db->where("staff.is_active", "1");
+        $this->db->where("staff.sch_id", " $school_id");
         $this->db->from('staff');
         $query = $this->db->get();
         return $query->result_array();
