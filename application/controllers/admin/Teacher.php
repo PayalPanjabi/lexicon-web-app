@@ -326,6 +326,7 @@ class Teacher extends Admin_Controller {
     }
 
     public function assign_class_teacher() {
+        
         if (!$this->rbac->hasPrivilege('assign_class_teacher', 'can_view')) {
             access_denied();
         }
