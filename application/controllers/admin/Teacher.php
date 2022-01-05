@@ -12,8 +12,6 @@ class Teacher extends Admin_Controller {
         $this->load->model("classteacher_model");
         $this->role;
         $this->current_session = $this->setting_model->getCurrentSession();
-        $this->load->library('session');
-
     }
 
     public function index() {
@@ -331,9 +329,6 @@ class Teacher extends Admin_Controller {
         if (!$this->rbac->hasPrivilege('assign_class_teacher', 'can_view')) {
             access_denied();
         }
-
-        $admin = $this->session->userdata('admin');
-        $school_id = $admin['sch_id'];
         $this->session->set_userdata('top_menu', 'Academics');
         $this->session->set_userdata('sub_menu', 'admin/teacher/assign_class_teacher');
         $data['title'] = 'Add Class Teacher';
@@ -381,13 +376,13 @@ class Teacher extends Admin_Controller {
             $this->session->set_flashdata('msg', '<div class="alert alert-success">' . $this->lang->line('success_message') . '</div>');
             redirect('admin/teacher/assign_class_teacher');
         }
-        $classlist = $this->class_model->get($school_id);
+        $classlist = $this->class_model->get();
         $data['classlist'] = $classlist;
 
-        $sectionlist = $this->section_model->get($school_id);
+        $sectionlist = $this->section_model->get();
         $data['sectionlist'] = $sectionlist;
 
-        $assignteacherlist = $this->classteacher_model->getClassTeacher();
+        $assignteacherlist = $this->class_model->getClassTeacher();
         $data['assignteacherlist'] = $assignteacherlist;
 
         foreach ($assignteacherlist as $key => $value) {

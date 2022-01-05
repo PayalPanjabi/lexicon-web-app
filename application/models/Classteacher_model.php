@@ -25,7 +25,11 @@ class Classteacher_model extends MY_Model {
             // echo "<pre>";
             // print_r($query->result_array());die;
 
-            return $query->result_array();
+            return $query->row_array();
+
+            // $query = $this->db->select('staff.*,class_teacher.id as ctid,class_teacher.class_id,class_teacher.section_id,classes.class,sections.section')->join("staff", "class_teacher.staff_id = staff.id")->join("classes", "class_teacher.class_id = classes.id")->join("sections", "class_teacher.section_id = sections.id")->get("class_teacher");
+
+            // return $query->row_array();
         }
     }
 
