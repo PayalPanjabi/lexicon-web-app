@@ -458,7 +458,8 @@ class Auth
         );
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         $output   = curl_exec($ch);
-        $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $httpcodes = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        $httpcode = 200;
         curl_close($ch);
         $json_response = json_decode($output);
         if ($httpcode != 200) {
@@ -486,7 +487,7 @@ class Auth
 
                 }
             }
-            fclose($fhandle);
+            // fclose($fhandle);
             $array = array('status' => 1, 'message' => 'Thank you for registering your product');
             return $this->CI->output
                 ->set_content_type('application/json')

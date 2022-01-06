@@ -778,24 +778,27 @@ class Admin extends Admin_Controller
 
     public function updateandappCode()
     {
-        $this->form_validation->set_rules('app-email', 'Email', 'required|valid_email|trim|xss_clean');
-        $this->form_validation->set_rules('app-envato_market_purchase_code', 'Purchase Code', 'required|trim|xss_clean');
+        // $this->form_validation->set_rules('');
+        // $this->form_validation->set_rules('');
 
-        if ($this->form_validation->run() == false) {
-            $data = array(
-                'app-email'                       => form_error('app-email'),
-                'app-envato_market_purchase_code' => form_error('app-envato_market_purchase_code'),
-            );
-            $array = array('status' => '2', 'error' => $data);
+        // if ($this->form_validation->run() == false) {
+        //     $data = array(
+        //         'app-email'                       => form_error('app-email'),
+        //         'app-envato_market_purchase_code' => form_error('app-envato_market_purchase_code'),
+        //     );
+        //     $array = array('status' => '2', 'error' => $data);
+        //     echo "aaaaaaaaaaaaa";die;
 
-            return $this->output
-                ->set_content_type('application/json')
-                ->set_status_header(200)
-                ->set_output(json_encode($array));
-        } else {
+        //     return $this->output
+        //         ->set_content_type('application/json')
+        //         ->set_status_header(200)
+        //         ->set_output(json_encode($array));
+        // } else {
+
+            // echo "asssssssss";die;
             //==================
             $response = $this->auth->andapp_update();
-        }
+        // }
     }
 
     public function filetype()
