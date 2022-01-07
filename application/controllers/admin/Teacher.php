@@ -355,6 +355,10 @@ class Teacher extends Admin_Controller {
             foreach ($teachers as $key => $value) {
 
                 $classteacherid = $this->input->post("classteacherid");
+
+                $admin = $this->session->userdata('admin');
+                $school_id = $admin['sch_id'];  
+
                 if (isset($classteacherid)) {
 
                     $data = array('id' => $classteacherid[$i],
@@ -368,6 +372,8 @@ class Teacher extends Admin_Controller {
                         'section_id' => $section,
                         'staff_id' => $teachers[$i],
                         'session_id' => $this->current_session,
+                        'sch_id' => $school_id,
+
                     );
                 }
                 $i++;

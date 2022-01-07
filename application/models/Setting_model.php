@@ -29,7 +29,7 @@ class Setting_model extends MY_Model {
           sch_settings.address,sch_settings.dise_code,sch_settings.date_format,sch_settings.currency,sch_settings.currency_symbol,sch_settings.currency_place,sch_settings.start_month,sch_settings.start_week,sch_settings.session_id,sch_settings.fee_due_days,sch_settings.image,sch_settings.theme,sessions.session,sch_settings.online_admission,sch_settings.is_duplicate_fees_invoice,sch_settings.is_student_house,sch_settings.is_blood_group,sch_settings.admin_logo,sch_settings.admin_small_logo,sch_settings.mobile_api_url,sch_settings.app_primary_color_code,sch_settings.app_secondary_color_code,sch_settings.app_logo,sch_settings.student_profile_edit'
         );
         $this->db->from('sch_settings');
-        $this->db->join('sessions', 'sessions.id = sch_settings.session_id');
+         $this->db->join('sessions', 'sessions.id = sch_settings.session_id');
         $this->db->join('languages', 'languages.id = sch_settings.lang_id');
         if ($id != null) {
            
@@ -242,13 +242,13 @@ class Setting_model extends MY_Model {
     
 }
     // 
- 
     public function getCurrentSession() {
-        $session_result = $this->get();
+        $admin = $this->session->userdata('admin');
+        $id = $admin['sch_id'];
+        $session_result = $this->get($id);
 
         // print_r($session_result);die;
-
-        return $session_result[0]['session_id'];
+        return $session_result['session_id'];
     }
 
     public function getOnlineAdmissionStatus() {
