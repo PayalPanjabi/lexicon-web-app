@@ -24,6 +24,8 @@ class Classes extends Admin_Controller
         $data['title']      = 'Add Class';
         $data['title_list'] = 'Class List';
 
+
+        // print_r($data);die;
         $this->form_validation->set_rules(
             'class', $this->lang->line('class'), array(
                 'required',

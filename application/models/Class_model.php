@@ -186,6 +186,14 @@ class Class_model extends MY_Model {
     }
 
     public function check_data_exists($data) {
+
+        // print_r($data);
+
+        // $admin = $this->session->userdata('admin');
+        //     $id = $admin['sch_id'];
+
+        $this->db->where(array('class' => $$data, 'sch_id' => $id));
+
         $this->db->where('class', $data);
 
         $query = $this->db->get('classes');
@@ -258,7 +266,6 @@ class Class_model extends MY_Model {
         $admin = $this->session->userdata('admin');
         $id = $admin['sch_id'];
         
-
         $query = $this->db->query('SELECT class_teacher.*,classes.class,sections.section FROM `class_teacher` INNER JOIN classes on classes.id=class_teacher.class_id INNER JOIN sections on sections.id=class_teacher.section_id where class_teacher.session_id="' . $this->current_session . '" AND sections.sch_id="' .  $id . '"  GROUP BY class_teacher.class_id , class_teacher.section_id ORDER by length(classes.class), classes.class');
 
         //     $query = $this->db->query('SELECT distinct class_id AS class_id ,section_id,
