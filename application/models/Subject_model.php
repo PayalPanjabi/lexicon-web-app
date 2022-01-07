@@ -7,6 +7,8 @@ class Subject_model extends MY_Model {
 
     public function __construct() {
         parent::__construct();
+        $this->load->library('session');
+
     }
 
     public function get($id = null) {
@@ -15,7 +17,8 @@ class Subject_model extends MY_Model {
         $userdata = $this->customlib->getUserData();
 
         $role_id = $userdata["role_id"];
-
+        $admin = $this->session->userdata('admin');
+        $school_id = $admin['sch_id'];
 
         if (isset($role_id) && ($userdata["role_id"] == 2) && ($userdata["class_teacher"] == "yes")) {
             if ($userdata["class_teacher"] == 'yes') {
@@ -42,17 +45,20 @@ class Subject_model extends MY_Model {
             }
             $this->db->order_by('id');
         }
-        $query = $this->db->get();
+
+        $query = $this->db->where('sch_id', $school_id)->get();
+
         if ($id != null) {
             return $query->row_array();
         } else {
+            
             return $query->result_array();
         }
     }
 
     public function remove($id) {
-        $this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+        // $this->db->trans_start(); # Starting Transaction
+        // $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
         $this->db->where('id', $id);
         $this->db->delete('subjects');
@@ -61,20 +67,20 @@ class Subject_model extends MY_Model {
         $record_id = $id;
         $this->log($message, $record_id, $action);
         //======================Code End==============================
-        $this->db->trans_complete(); # Completing transaction
+        // $this->db->trans_complete(); # Completing transaction
         /* Optional */
-        if ($this->db->trans_status() === false) {
-            # Something went wrong.
-            $this->db->trans_rollback();
-            return false;
-        } else {
-            //return $return_value;
-        }
+        // if ($this->db->trans_status() === false) {
+        //     # Something went wrong.
+        //     $this->db->trans_rollback();
+        //     return false;
+        // } else {
+        //     //return $return_value;
+        // }
     }
 
     public function add($data) {
-        $this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+        // $this->db->trans_start(); # Starting Transaction
+        // $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
         if (isset($data['id'])) {
             $this->db->where('id', $data['id']);
@@ -85,16 +91,16 @@ class Subject_model extends MY_Model {
             $this->log($message, $record_id, $action);
             //======================Code End==============================
 
-            $this->db->trans_complete(); # Completing transaction
+            // $this->db->trans_complete(); # Completing transaction
             /* Optional */
 
-            if ($this->db->trans_status() === false) {
-                # Something went wrong.
-                $this->db->trans_rollback();
-                return false;
-            } else {
-                //return $return_value;
-            }
+            // if ($this->db->trans_status() === false) {
+            //     # Something went wrong.
+            //     $this->db->trans_rollback();
+            //     return false;
+            // } else {
+            //     //return $return_value;
+            // }
         } else {
             $this->db->insert('subjects', $data);
             $id = $this->db->insert_id();
@@ -104,16 +110,16 @@ class Subject_model extends MY_Model {
             $this->log($message, $record_id, $action);
             //======================Code End==============================
 
-            $this->db->trans_complete(); # Completing transaction
+            // $this->db->trans_complete(); # Completing transaction
             /* Optional */
 
-            if ($this->db->trans_status() === false) {
-                # Something went wrong.
-                $this->db->trans_rollback();
-                return false;
-            } else {
-                //return $return_value;
-            }
+            // if ($this->db->trans_status() === false) {
+            //     # Something went wrong.
+            //     $this->db->trans_rollback();
+            //     return false;
+            // } else {
+            //     //return $return_value;
+            // }
             return $id;
         }
     }

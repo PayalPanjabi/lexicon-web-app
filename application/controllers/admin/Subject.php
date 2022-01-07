@@ -8,18 +8,24 @@ class Subject extends Admin_Controller {
     function __construct() {
         parent::__construct();
         $this->load->helper('file');
+        $this->load->library('session');
+
     }
 
     function index() {
         if (!$this->rbac->hasPrivilege('subject', 'can_view')) {
             access_denied();
         }
+        $admin = $this->session->userdata('admin');
+        $id = $admin['sch_id'];
         $this->session->set_userdata('top_menu', 'Academics');
         $this->session->set_userdata('sub_menu', 'Academics/subject');
         $data['title'] = 'Add subject';
         $subject_result = $this->subject_model->get();
         $data['subjectlist'] = $subject_result;
         $data['subject_types'] = $this->customlib->subjectType();
+
+      
         $this->form_validation->set_rules('name', $this->lang->line('subject_name'), 'trim|required|xss_clean|callback__check_name_exists');
         $this->form_validation->set_rules('type', $this->lang->line('type'), 'trim|required|xss_clean');
         if ($this->input->post('code')) {
@@ -34,6 +40,7 @@ class Subject extends Admin_Controller {
                 'name' => $this->input->post('name'),
                 'code' => $this->input->post('code'),
                 'type' => $this->input->post('type'),
+                'sch_id' => $id,
             );
             $this->subject_model->add($data);
             $this->session->set_flashdata('msg', '<div class="alert alert-success text-left">' . $this->lang->line('success_message') . '</div>');
