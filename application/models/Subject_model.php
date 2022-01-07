@@ -125,7 +125,14 @@ class Subject_model extends MY_Model {
     }
 
     function check_data_exists($data) {
-        $this->db->where('name', $data['name']);
+
+        $admin = $this->session->userdata('admin');
+            $sch_id = $admin['sch_id'];
+
+        // $this->db->where('name', $data['name']);
+
+        $this->db->where(array('name' => $data['name'], 'sch_id' => $sch_id));
+
         $query = $this->db->get('subjects');
         if ($query->num_rows() > 0) {
             return TRUE;
@@ -135,7 +142,13 @@ class Subject_model extends MY_Model {
     }
 
     function check_code_exists($data) {
-        $this->db->where('code', $data['code']);
+
+        $admin = $this->session->userdata('admin');
+        $sch_id = $admin['sch_id'];
+
+        $this->db->where(array('code' => $data['code'], 'sch_id' => $sch_id));
+
+        // $this->db->where('code', $data['code']);
         $query = $this->db->get('subjects');
         if ($query->num_rows() > 0) {
             return TRUE;
