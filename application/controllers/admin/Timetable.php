@@ -405,7 +405,7 @@ class Timetable extends Admin_Controller
 
             $delete_array = array_diff($old_input, $preserve_array);
 
-            print_r($preserve_array);die;
+            // print_r($preserve_array);die;
 
             $result       = $this->subjecttimetable_model->add($delete_array, $insert_array, $update_array);
             if ($result) {
