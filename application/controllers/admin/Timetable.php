@@ -12,6 +12,8 @@ class Timetable extends Admin_Controller
         parent::__construct();
         $this->load->model("staff_model");
         $this->load->model("classteacher_model");
+        $this->load->library('session');
+
     }
 
     public function index()
@@ -146,6 +148,8 @@ class Timetable extends Admin_Controller
 
     public function create()
     {
+
+      
         if (!$this->rbac->hasPrivilege('class_timetable', 'can_view')) {
             access_denied();
         }
@@ -190,6 +194,7 @@ class Timetable extends Admin_Controller
             $data['getDaysnameList'] 	= $getDaysnameList;
             $subject                 	= $this->subjectgroup_model->getGroupsubjects($subject_group_id);
             $data['subject'] 			= $subject;
+            // print_r($data['subject'] );die;
             $this->load->view('layout/header', $data);
             $this->load->view('admin/timetable/timetableCreate', $data);
             $this->load->view('layout/footer', $data);
@@ -302,6 +307,10 @@ class Timetable extends Admin_Controller
 
     public function savegroup()
     {
+        
+       
+        $admin = $this->session->userdata('admin');
+        $school_id = $admin['sch_id'];
         $json = array();
         $this->form_validation->set_rules('subject_group_id', $this->lang->line('subject_group'), 'trim|required');
         $this->form_validation->set_rules('day', $this->lang->line('day'), 'trim|required');
@@ -367,6 +376,8 @@ class Timetable extends Admin_Controller
                             'end_time'                 => $this->customlib->timeFormat($this->input->post('time_to_' . $total_value), true),
                             'room_no'                  => $this->input->post('room_no_' . $total_value),
                             'session_id'               => $session,
+                            'sch_id'                    => $school_id,
+
                         );
                     } else {
                         $preserve_array[] = $prev_id;
@@ -385,12 +396,17 @@ class Timetable extends Admin_Controller
                             'end_time'                 => $this->customlib->timeFormat($this->input->post('time_to_' . $total_value), true),
                             'room_no'                  => $this->input->post('room_no_' . $total_value),
                             'session_id'               => $session,
+                            // 'sch_id'                   => $school_id,
+
                         );
                     }
                 }
             }
 
             $delete_array = array_diff($old_input, $preserve_array);
+
+            print_r($preserve_array);die;
+
             $result       = $this->subjecttimetable_model->add($delete_array, $insert_array, $update_array);
             if ($result) {
                 $json_array = array('status' => '1', 'error' => '', 'message' => $this->lang->line('success_message'));
