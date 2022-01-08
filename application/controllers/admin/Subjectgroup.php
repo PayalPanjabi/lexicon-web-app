@@ -8,6 +8,8 @@ class Subjectgroup extends Admin_Controller {
 
     public function __construct() {
         parent::__construct();
+        $this->load->library('session');
+
     }
 
     public function index() {
@@ -15,13 +17,16 @@ class Subjectgroup extends Admin_Controller {
             access_denied();
         }
 
-
+        $admin = $this->session->userdata('admin');
+        $school_id = $admin['sch_id'];
         $json_array = array();
         $this->session->set_userdata('top_menu', 'Academics');
         $this->session->set_userdata('sub_menu', 'subjectgroup/index');
         $data['title'] = 'Add Class';
         $data['title_list'] = 'Class List';
-        $class = $this->class_model->get();
+        $class = $this->class_model->get($school_id);
+        // echo"<pre>";
+        //  print_r($class);die;
         $data['classlist'] = $class;
         $data['section_array'] = $json_array;
 
@@ -54,6 +59,7 @@ class Subjectgroup extends Admin_Controller {
             $class_array = array(
                 'name' => $this->input->post('name'),
                 'session_id' => $session,
+                'sch_id' => $school_id,
                 'description' => $this->input->post('description'),
             );
             $subject = $this->input->post('subject');
