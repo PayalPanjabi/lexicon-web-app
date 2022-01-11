@@ -971,7 +971,7 @@ class Student extends Admin_Controller
         // $fields = array('firstname','middlename','lastname','admission_no','admission_date','gender','dob','birth_place','nationality','mother_tongue','category_id', 'religion','cast','blood_group','school_house_id','roll_no','mobileno','email','height', 'weight', 'measurement_date', 'father_name', 'father_phone', 'father_occupation', 'mother_name', 'mother_phone', 'mother_occupation', 'guardian_is', 'guardian_name', 'guardian_relation', 'guardian_email', 'guardian_phone', 'guardian_occupation', 'guardian_address', 'current_address', 'permanent_address', 'bank_account_no', 'bank_name', 'ifsc_code', 'adhar_no', 'samagra_id', 'rte', 'previous_school', 'note');
 
         $fields = array('firstname','middlename','lastname','admission_no','admission_date','gender','dob','birth_place','nationality','mother_tongue','category_id','religion','cast','blood_group','school_house_id','roll_no','medical_problem','birthmark','Siblings',
-        'siblings_classname','annual_income','adhaar_yes_no','adhar_no','father_name','father_middle_name','father_last_name','father_qualification','father_occupation','father_organization','father_designation','father_office_address','father_office_phone','city','state','pincode','father_phone','father_email','mother_name','mother_middle_name','mother_last_name','mother_qualification','mother_occupation','mother_organization','mother_designation','mother_office_address','mother_office_phone','mother_phone','mother_email','email','mobileno','guardian_is','guardian_name','guardian_relation','guardian_email','guardian_phone','guardian_occupation', 'guardian_address', 'current_address', 'permanent_address','bank_account_no','bank_name', 'ifsc_code','samagra_id','rte','previous_school','note','height','weight');
+        'siblings_classname','annual_income','adhaar_yes_no','adhar_no','father_name','father_middle_name','father_last_name','father_qualification','father_occupation','father_organization','father_designation','father_office_address','city','state','pincode','father_office_phone','father_phone','father_email','mother_name','mother_middle_name','mother_last_name','mother_qualification','mother_occupation','mother_organization','mother_designation','mother_office_address','mother_district','mother_state','mother_pincode','mother_office_phone','mother_phone','mother_email','email','mobileno','guardian_is','guardian_name','guardian_relation','guardian_email','guardian_phone','guardian_occupation', 'guardian_address', 'current_address','bank_account_no','bank_name', 'ifsc_code','samagra_id','rte','previous_school','note','height','weight');
 
         $data["fields"]       = $fields;
         $data['categorylist'] = $category;
@@ -1028,24 +1028,15 @@ class Student extends Admin_Controller
                                     $student_data[$i]['dob'] = null;
                                 }
 
-                                $var_measurement_date = $result[$i]['date_of_birth'];
-                                // str_replace('/', '-', $var_date_of_birth)
-                                $date_measurement_date = str_replace('/', '-', $var_measurement_date);
-
-
-                                if (date('Y-m-d', strtotime($date_measurement_date)) === $date_measurement_date) {
-                                    $student_data[$i]['measurement_date'] = date('Y-m-d', strtotime($date_measurement_date));
+                          
+                                if (date('Y-m-d', strtotime($result[$i]['measurement_date'])) === $result[$i]['measurement_date']) {
+                                    $student_data[$i]['measurement_date'] = date('Y-m-d', strtotime($result[$i]['measurement_date']));
                                 } else {
                                     $student_data[$i]['measurement_date'] = '';
                                 }
 
-
-                                $var_admission_date = $result[$i]['date_of_birth'];
-                                // str_replace('/', '-', $var_date_of_birth)
-                                $date_admission_date = str_replace('/', '-', $var_admission_date);
-
-                                if (date('Y-m-d', strtotime($date_admission_date)) === $date_admission_date) {
-                                    $student_data[$i]['admission_date'] = date('Y-m-d', strtotime($date_admission_date));
+                                if (date('Y-m-d', strtotime($result[$i]['admission_date'])) === $result[$i]['admission_date']) {
+                                    $student_data[$i]['admission_date'] = date('Y-m-d', strtotime($result[$i]['admission_date']));
                                 } else {
                                     $student_data[$i]['admission_date'] = null;
                                 }
