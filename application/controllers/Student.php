@@ -1018,22 +1018,13 @@ class Student extends Admin_Controller
                                 $school_id = $admin['sch_id'];  
                                 $student_data[$i]['sch_id'] = $school_id;
 
-                                $var_date_of_birth = $result[$i]['date_of_birth'];
-                                // str_replace('/', '-', $var_date_of_birth)
-
-                                $date_birth =date('Y-m-d', $this->customlib->datetostrtotime($var_date_of_birth));
-                                // $date_birth = str_replace('/', '-', $var_date_of_birth);
-
-                                $var_admission_date = $result[$i]['admission_date'];
-                                $date_var_admission_date =date('Y-m-d', $this->customlib->datetostrtotime($var_admission_date));
-
-
-                                if (date('Y-m-d', strtotime($date_birth)) === $date_birth) {
-                                    $student_data[$i]['dob'] = date('Y-m-d', strtotime($date_birth));
+                               
+                                
+                                if (date('Y-m-d', strtotime($result[$i]['date_of_birth'])) === $result[$i]['date_of_birth']) {
+                                    $student_data[$i]['dob'] = date('Y-m-d', strtotime($result[$i]['date_of_birth']));
                                 } else {
-                                    $student_data[$i]['dob'] = null;
+                                    $student_data[$i]['dob'] = '';
                                 }
-
                           
                                 if (date('Y-m-d', strtotime($result[$i]['measurement_date'])) === $result[$i]['measurement_date']) {
                                     $student_data[$i]['measurement_date'] = date('Y-m-d', strtotime($result[$i]['measurement_date']));
@@ -1041,8 +1032,8 @@ class Student extends Admin_Controller
                                     $student_data[$i]['measurement_date'] = '';
                                 }
 
-                                if (date('Y-m-d', strtotime($date_var_admission_date)) === $date_var_admission_date) {
-                                    $student_data[$i]['admission_date'] = date('Y-m-d', strtotime($date_var_admission_date));
+                                if (date('Y-m-d', strtotime($result[$i]['admission_date'])) === $result[$i]['admission_date']) {
+                                    $student_data[$i]['admission_date'] = date('Y-m-d', strtotime($result[$i]['admission_date']));
                                 } else {
                                     $student_data[$i]['admission_date'] = null;
                                 }
