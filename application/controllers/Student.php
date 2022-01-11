@@ -1018,8 +1018,12 @@ class Student extends Admin_Controller
                                 $school_id = $admin['sch_id'];  
                                 $student_data[$i]['sch_id'] = $school_id;
 
-                                if (date('Y-m-d', strtotime($result[$i]['date_of_birth'])) === $result[$i]['date_of_birth']) {
-                                    $student_data[$i]['dob'] = date('Y-m-d', strtotime($result[$i]['date_of_birth']));
+                                $var_date_of_birth = $result[$i]['date_of_birth'];
+                                // str_replace('/', '-', $var_date_of_birth)
+                                $date_birth = str_replace('/', '-', $var_date_of_birth);
+
+                                if (date('Y-m-d', strtotime($date_birth)) === $date_birth) {
+                                    $student_data[$i]['dob'] = date('Y-m-d', strtotime($date_birth));
                                 } else {
                                     $student_data[$i]['dob'] = null;
                                 }
