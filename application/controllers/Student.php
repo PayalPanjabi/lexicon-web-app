@@ -1028,14 +1028,24 @@ class Student extends Admin_Controller
                                     $student_data[$i]['dob'] = null;
                                 }
 
-                                if (date('Y-m-d', strtotime($result[$i]['measurement_date'])) === $result[$i]['measurement_date']) {
-                                    $student_data[$i]['measurement_date'] = date('Y-m-d', strtotime($result[$i]['measurement_date']));
+                                $var_measurement_date = $result[$i]['date_of_birth'];
+                                // str_replace('/', '-', $var_date_of_birth)
+                                $date_measurement_date = str_replace('/', '-', $var_measurement_date);
+
+
+                                if (date('Y-m-d', strtotime($date_measurement_date)) === $date_measurement_date) {
+                                    $student_data[$i]['measurement_date'] = date('Y-m-d', strtotime($date_measurement_date));
                                 } else {
                                     $student_data[$i]['measurement_date'] = '';
                                 }
 
-                                if (date('Y-m-d', strtotime($result[$i]['admission_date'])) === $result[$i]['admission_date']) {
-                                    $student_data[$i]['admission_date'] = date('Y-m-d', strtotime($result[$i]['admission_date']));
+
+                                $var_admission_date = $result[$i]['date_of_birth'];
+                                // str_replace('/', '-', $var_date_of_birth)
+                                $date_admission_date = str_replace('/', '-', $var_admission_date);
+
+                                if (date('Y-m-d', strtotime($date_admission_date)) === $date_admission_date) {
+                                    $student_data[$i]['admission_date'] = date('Y-m-d', strtotime($date_admission_date));
                                 } else {
                                     $student_data[$i]['admission_date'] = null;
                                 }
