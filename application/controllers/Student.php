@@ -1022,10 +1022,10 @@ class Student extends Admin_Controller
                                 $date_of_birth = strtr($orgDate, '/', '-');    
                             //    echo date('Y-m-d', strtotime($date_of_birth));
 
-                            $orgDate1 = $result[$i]['admission_date'];  
+                                 $orgDate1 = $result[$i]['admission_date'];  
                                 $admission_date = strtr($orgDate1, '/', '-');  
                                 
-                                if (date('Y-m-d', strtotime($date_of_birth)) === $result[$i]['date_of_birth']) {
+                                if (date('Y-m-d', strtotime($date_of_birth)) == date('Y-m-d', strtotime($date_of_birth))) {
                                     $student_data[$i]['dob'] = date('Y-m-d', strtotime($date_of_birth));
                                 } else {
                                     $student_data[$i]['dob'] = '';
@@ -1037,7 +1037,7 @@ class Student extends Admin_Controller
                                     $student_data[$i]['measurement_date'] = '';
                                 }
 
-                                if (date('Y-m-d', strtotime($admission_date)) === $result[$i]['admission_date']) {
+                                if (date('Y-m-d', strtotime($admission_date)) == date('Y-m-d', strtotime($admission_date))) {
                                     $student_data[$i]['admission_date'] = date('Y-m-d', strtotime($admission_date));
                                 } else {
                                     $student_data[$i]['admission_date'] = null;
