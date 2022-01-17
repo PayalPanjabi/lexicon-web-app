@@ -357,7 +357,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                                             <?php } if ($sch_setting->mobile_no) {  ?>
                                             <tr>
                                                 <td><?php echo $this->lang->line('mobile_no'); ?></td>
-                                                <td><?php echo $student['mobileno']; ?></td>
+                                                <td><?php echo $student['father_phone']; ?></td>
                                             </tr>
                                             <?php } if ($sch_setting->cast) {  ?>
                                             <tr>

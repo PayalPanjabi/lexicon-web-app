@@ -169,7 +169,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
 													<?php if ($sch_setting->category) {  ?>
                                                     <td><?php echo $student['category']; ?></td>
 													<?php } if ($sch_setting->mobile_no) {  ?>
-                                                    <td><?php echo $student['mobileno']; ?></td>
+                                                    <td><?php echo $student['father_phone']; ?></td>
                                                     <?php }
                                                     if (!empty($fields)) {
 
