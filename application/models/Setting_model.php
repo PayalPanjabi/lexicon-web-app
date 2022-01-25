@@ -259,6 +259,7 @@ class Setting_model extends MY_Model {
         $admin = $this->session->userdata('admin');
         $student = $this->session->userdata('student');
 
+        
         if (isset($admin))
         {
             $id = $admin['sch_id'];

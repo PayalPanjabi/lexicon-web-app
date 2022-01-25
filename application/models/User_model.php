@@ -80,7 +80,8 @@ class User_model extends MY_Model {
 
     public function checkLoginParent($data) {
 
-        $sql = "SELECT users.*,students.admission_no,students.admission_no ,students.guardian_name, students.roll_no,students.admission_date,students.firstname,students.middlename, students.lastname,students.image,students.father_pic,students.mother_pic,students.guardian_pic,students.guardian_relation, students.mobileno, students.email ,students.state , students.city , students.pincode , students.religion, students.dob ,students.current_address, students.permanent_address FROM `users` INNER JOIN (select * from students) as students on students.parent_id= users.id left JOIN (select * from languages) as languages on languages.id= users.lang_id WHERE `username` = " . $this->db->escape($data['username']) . " AND `password` = " . $this->db->escape($data['password']) . " LIMIT 0,1";
+
+        $sql = "SELECT users.*,students.admission_no,students.admission_no ,students.guardian_name, students.roll_no,students.admission_date,students.firstname,students.middlename, students.lastname,students.image,students.father_pic,students.mother_pic,students.guardian_pic,students.guardian_relation, students.mobileno, students.email ,students.state , students.city , students.pincode , students.religion, students.dob ,students.sch_id,students.current_address,students.father_name,students.father_middle_name, students.permanent_address FROM `users` INNER JOIN (select * from students) as students on students.id= users.user_id left JOIN (select * from languages) as languages on languages.id= users.lang_id WHERE `username` = " . $this->db->escape($data['username']) . " AND `password` = " . $this->db->escape($data['password']) . " LIMIT 0,1";
 
         $query = $this->db->query($sql);
 

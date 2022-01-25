@@ -557,6 +557,14 @@ class Customlib
         return $user_id;
     }
 
+    public function getUsersID_as_parent()
+    {
+        // users table id of users
+        $session_Array = $this->CI->session->userdata('student');
+        $user_id       = $session_Array['student_id'];
+        return $user_id;
+    }
+
     public function getStaffID()
     {
         // users table id of users

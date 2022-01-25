@@ -116,6 +116,26 @@ class Student_model extends MY_Model
         // return $query->result();
     }
 
+    public function getParentChilds_new($parent_id)
+    {
+        
+        $sql   = "SELECT students.*,student_session.id as `student_session_id`,student_session.session_id,student_session.student_id,student_session.class_id,student_session.default_login,student_session.section_id,classes.class,sections.section From students inner JOIN student_session on student_session.student_id=students.id inner join classes on student_session.class_id=classes.id INNER JOIN sections on sections.id=student_session.section_id WHERE students.id=" . $this->db->escape($parent_id) . " and student_session.session_id=" . $this->current_session . " and students.is_active = 'yes' order by student_session.class_id asc";
+        $query = $this->db->query($sql);
+        
+        return $query->result();
+        
+        // $this->db->select('students.*,classes.id AS `class_id`,classes.class,sections.id AS `section_id`,sections.section')->from('students');
+        // $this->db->join('student_session', 'student_session.student_id = students.id');
+        // $this->db->join('classes', 'student_session.class_id = classes.id');
+        // $this->db->join('sections', 'sections.id = student_session.section_id');
+        // $this->db->where('student_session.session_id', $this->current_session);
+        // $this->db->where('parent_id', $parent_id);
+        // $this->db->where('students.is_active', 'yes');
+        // $this->db->group_by('students.id');
+        // $query = $this->db->get();
+        // return $query->result();
+    }
+
     public function getStudentByClassSectionID($class_id = null, $section_id = null, $id = null)
     {
         $this->db->select('student_session.transport_fees,students.vehroute_id,vehicle_routes.route_id,vehicle_routes.vehicle_id,transport_route.route_title,vehicles.vehicle_no,hostel_rooms.room_no,vehicles.driver_name,vehicles.driver_contact,hostel.id as `hostel_id`,hostel.hostel_name,room_types.id as `room_type_id`,room_types.room_type ,students.hostel_room_id,student_session.id as `student_session_id`,student_session.fees_discount,classes.id AS `class_id`,classes.class,sections.id AS `section_id`,sections.section,students.id,students.admission_no , students.roll_no,students.admission_date,students.firstname, students.middlename, students.lastname,students.image,    students.mobileno, students.email ,students.state ,   students.city , students.pincode , students.note, students.religion, students.cast, school_houses.house_name,   students.dob ,students.current_address, students.previous_school,
