@@ -42,8 +42,9 @@ class User extends Student_Controller
             $student_id            = $this->customlib->getStudentSessionUserID();
             $data['student_lists'] = $this->studentsession_model->searchMultiClsSectionByStudent($student_id);
         } elseif ($role == "parent") {
-            $parent_id             = $this->customlib->getUsersID();
-            $data['student_lists'] = $this->student_model->getParentChilds($parent_id);
+            $parent_id             = $this->customlib->getUsersID_as_parent();
+            // print_r($parent_id);
+            $data['student_lists'] = $this->student_model->getParentChilds_new($parent_id);
         }
 
         $this->form_validation->set_rules('clschg', $this->lang->line('select')." ".$this->lang->line('class'), 'trim|required|xss_clean');

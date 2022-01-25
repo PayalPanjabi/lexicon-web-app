@@ -384,6 +384,7 @@ class Site extends Public_Controller
                         $result = $this->user_model->read_user_information($user->id);
                     } else if ($user->role == "parent") {
                         $result = $this->user_model->checkLoginParent($login_post);
+                    //   echo "sss";  print_r($result);die;
                     }
 
                     if ($result != false) {
@@ -400,7 +401,8 @@ class Site extends Public_Controller
                         }
                       
                         if ($result[0]->role == "parent") {
-                            $username = $result[0]->guardian_name;
+                           $username = $result[0]->father_name;
+
                             if ($result[0]->guardian_relation == "Father") {
                                 $image = $result[0]->father_pic;
                             } else if ($result[0]->guardian_relation == "Mother") {
