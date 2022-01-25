@@ -92,7 +92,7 @@ class User_model extends MY_Model {
     }
 
     public function read_user_information($users_id) {
-        $this->db->select('users.*,languages.language,students.firstname, students.middlename,students.image,students.lastname,students.guardian_name,students.gender');
+        $this->db->select('users.*,languages.language,students.sch_id,students.firstname, students.middlename,students.image,students.lastname,students.guardian_name,students.gender');
         $this->db->from('users');
         $this->db->join('students', 'students.id = users.user_id');
         $this->db->join('languages', 'languages.id = users.lang_id', 'left');

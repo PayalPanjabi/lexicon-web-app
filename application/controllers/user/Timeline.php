@@ -1,8 +1,5 @@
 <?php
 
-/**
- * 
- */
 class Timeline extends Student_Controller {
 
     function __construct() {

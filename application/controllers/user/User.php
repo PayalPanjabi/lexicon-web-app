@@ -32,10 +32,10 @@ class User extends Student_Controller
     public function choose()
     {
         if ($this->session->has_userdata('current_class')) {
-
             redirect('user/user/dashboard');
         }
 		$data['sch_setting'] = $this->sch_setting_detail;
+    //   print_r($data['sch_setting']);die;
         $role         = $this->customlib->getUserRole();
         $data['role'] = $role;
         if ($role == "student") {
@@ -71,11 +71,14 @@ class User extends Student_Controller
     public function dashboard()
     {
 
-        $this->session->set_userdata('top_menu', 'Dashboard');
+         $this->session->set_userdata('top_menu', 'Dashboard');
+        //  print_r($this->session->set_userdata('top_menu', 'Dashboard'));die;
         $student_id            = $this->customlib->getStudentSessionUserID();
+        
         $student_current_class = $this->customlib->getStudentCurrentClsSection();
 
         $student = $this->student_model->getStudentByClassSectionID($student_current_class->class_id, $student_current_class->section_id, $student_id);
+        // print_r($student);die;
 
         $data = array();
         if (!empty($student)) {
@@ -103,6 +106,7 @@ class User extends Student_Controller
             $data['student']              = $student;
 
         } 
+        
  
         $unread_notifications = $this->notification_model->getUnreadStudentNotification();
 
@@ -115,9 +119,10 @@ class User extends Student_Controller
         }
 
         $data['unread_notifications'] = $notification_bydate;
-
-        $this->load->view('layout/student/header', $data);
-        $this->load->view('user/dashboard', $data);
+// echo "<pre>";
+//         print_r($data['sch_setting']);die;
+         $this->load->view('layout/student/header', $data);
+         $this->load->view('user/dashboard', $data);
         $this->load->view('layout/student/footer', $data);
     }
 

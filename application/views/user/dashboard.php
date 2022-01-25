@@ -399,9 +399,9 @@ if ($student['hostel_room_id'] != 0) {
                                  <tr>
                                     <td  class="col-md-4"><?php echo $this->lang->line('measurement_date'); ?></td>
                                     <td  class="col-md-5"><?php
-if (!empty($student['measurement_date'])) {
-        echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($student['measurement_date']));
-    }
+// if (!empty($student['measurement_date'])) {
+//         echo date($this->customlib->getSchoolDateFormat(), $this->customlib->dateyyyymmddTodateformat($student['measurement_date']));
+//     }
     ?></td>
                                  </tr>
                                  <?php }if ($sch_setting->previous_school_details) {?>

@@ -20,7 +20,7 @@ class Teacher extends Student_Controller {
         $data['class_id'] = $class_id = $this->current_classSection->class_id;
         $data['section_id'] = $section_id = $this->current_classSection->section_id;
         $data['resultlist'] = $this->subjecttimetable_model->getTeacherByClassandSection($class_id, $section_id);
-
+        // print_r($data['resultlist']);die;
         $subject = array();
         foreach ($data['resultlist'] as $value) {
             $teachers[$value->staff_id][] = $value;

@@ -93,9 +93,20 @@ class Setting_model extends MY_Model {
     public function getSetting() {
 
         $admin = $this->session->userdata('admin');
+        $student = $this->session->userdata('student');
+
+
+        if (isset($admin))
+        {
             $school_id = $admin['sch_id'];
 
-            // print_r($school_id);die;
+        } 
+         //true if $data have value
+        if (isset($student))
+        {
+            $school_id = $student['sch_id'];
+
+        } 
 
         $this->db->select('sch_settings.id,sch_settings.attendence_type,sch_settings.lang_id,sch_settings.is_rtl,sch_settings.fee_due_days,sch_settings.class_teacher,sch_settings.cron_secret_key,sch_settings.timezone,
           sch_settings.name,sch_settings.email,sch_settings.biometric,sch_settings.biometric_device,sch_settings.phone,sch_settings.adm_prefix,sch_settings.adm_start_from,languages.language,sch_settings.adm_no_digit,sch_settings.adm_update_status,sch_settings.adm_auto_insert,sch_settings.staffid_prefix,sch_settings.staffid_start_from,sch_settings.staffid_auto_insert,sch_settings.staffid_no_digit,sch_settings.staffid_update_status,
@@ -243,8 +254,23 @@ class Setting_model extends MY_Model {
 }
     // 
     public function getCurrentSession() {
+       
+
         $admin = $this->session->userdata('admin');
-        $id = $admin['sch_id'];
+        $student = $this->session->userdata('student');
+
+        if (isset($admin))
+        {
+            $id = $admin['sch_id'];
+
+        } 
+         //true if $data have value
+        if (isset($student))
+        {
+            $id = $student['sch_id'];
+
+        } 
+
         $session_result = $this->get($id);
 
         // print_r($session_result);die;
@@ -261,14 +287,46 @@ class Setting_model extends MY_Model {
     }
 
     public function getCurrentSessionName() {
-        $session_result = $this->get();
-        return $session_result[0]['session'];
+
+
+        $admin = $this->session->userdata('admin');
+        $student = $this->session->userdata('student');
+
+        if (isset($admin))
+        {
+            $school_id = $admin['sch_id'];
+
+        } 
+         //true if $data have value
+        if (isset($student))
+        {
+            $school_id = $student['sch_id'];
+
+        } 
+
+        $session_result = $this->get($school_id);
+        return $session_result['session'];
     }
 
     public function getCurrentSchoolName() {
 
+      
+
         $admin = $this->session->userdata('admin');
-        $school_id = $admin['sch_id'];
+        $student = $this->session->userdata('student');
+
+        if (isset($admin))
+        {
+            $school_id = $admin['sch_id'];
+
+        } 
+         //true if $data have value
+        if (isset($student))
+        {
+            $school_id = $student['sch_id'];
+
+        } 
+
         $session_result = $this->get($school_id);
         return $session_result['name'];
     }

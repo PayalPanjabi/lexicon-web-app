@@ -387,9 +387,14 @@ class Site extends Public_Controller
                     }
 
                     if ($result != false) {
-                        $setting_result = $this->setting_model->get();
+                         $sch_id=$result[0]->sch_id;
+               
+                        $setting_result = $this->setting_model->get($sch_id);
+                        //  print_r($setting_result);die;
                         if ($result[0]->lang_id == 0) {
-                            $language = array('lang_id' => $setting_result[0]['lang_id'], 'language' => $setting_result[0]['language']);
+                           
+                            $language = array('lang_id' => $setting_result['lang_id'], 'language' => $setting_result['language']);
+                           
                         } else {
                             $language = array('lang_id' => $result[0]->lang_id, 'language' => $result[0]->language);
                         }
@@ -412,19 +417,22 @@ class Site extends Public_Controller
                             'id'              => $result[0]->id,
                             'login_username'  => $result[0]->username,
                             'student_id'      => $result[0]->user_id,
+                            'sch_id'           => $result[0]->sch_id,
                             'role'            => $result[0]->role,
                             'username'        => $username,
-                            'date_format'     => $setting_result[0]['date_format'],
+                            'date_format'     => $setting_result['date_format'],
                             'start_week'      => date("w", strtotime($setting_result[0]['start_week'])),
-                            'currency_symbol' => $setting_result[0]['currency_symbol'],
-                            'timezone'        => $setting_result[0]['timezone'],
-                            'sch_name'        => $setting_result[0]['name'],
+                            'currency_symbol' => $setting_result['currency_symbol'],
+                            'timezone'        => $setting_result['timezone'],
+                            'sch_name'        => $setting_result['name'],
                             'language'        => $language,
-                            'is_rtl'          => $setting_result[0]['is_rtl'],
-                            'theme'           => $setting_result[0]['theme'],
+                            'is_rtl'          => $setting_result['is_rtl'],
+                            'theme'           => $setting_result['theme'],
                             'image'           =>  $image,
                             'gender'          => $result[0]->gender,
                         );
+
+                        //  print_r($session_data);die;
                         $language_result1 = $this->language_model->get($language['lang_id']);
                         if ($this->customlib->get_rtl_languages($language_result1['short_code'])) {
                             $session_data['is_rtl'] = 'enabled';
@@ -432,6 +440,8 @@ class Site extends Public_Controller
                             $session_data['is_rtl'] = 'disabled';
                         }
                         $this->session->set_userdata('student', $session_data);
+
+                        // print_r($this->session->username);die;
                         if ($result[0]->role == "parent") {
                             $this->customlib->setUserLog($result[0]->username, $result[0]->role);
                         }
