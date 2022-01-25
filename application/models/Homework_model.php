@@ -9,11 +9,13 @@ class Homework_model extends MY_model {
     public function __construct() {
         parent::__construct();
         $this->current_session = $this->setting_model->getCurrentSession();
+        $this->load->library('session');
+
     }
 
     public function add($data) {
-        $this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+        // $this->db->trans_start(); # Starting Transaction
+        // $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
         if (isset($data["id"]) && $data["id"] > 0) {
             $this->db->where("id", $data["id"])->update("homework", $data);
@@ -32,20 +34,21 @@ class Homework_model extends MY_model {
         }
         //======================Code End==============================
 
-        $this->db->trans_complete(); # Completing transaction
+        // $this->db->trans_complete(); # Completing transaction
         /* Optional */
 
-        if ($this->db->trans_status() === false) {
-            # Something went wrong.
-            $this->db->trans_rollback();
-            return false;
-        } else {
-            return $insert_id;
-        }
-        // return $insert_id;
+        // if ($this->db->trans_status() === false) {
+        //     # Something went wrong.
+        //     $this->db->trans_rollback();
+        //     return false;
+        // } else {
+        //     return $insert_id;
+        // }
+    return $insert_id;
     }
 
     public function get($id = null) {
+
         $class = $this->class_model->get();
         $carray = array();
         foreach ($class as $key => $value) {
@@ -151,8 +154,8 @@ class Homework_model extends MY_model {
     }
 
     public function delete($id) {
-        $this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+        // $this->db->trans_start(); # Starting Transaction
+        // $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
         $this->db->where("id", $id)->delete("homework");
 
@@ -164,20 +167,23 @@ class Homework_model extends MY_model {
         $record_id = $id;
         $this->log($message, $record_id, $action);
         //======================Code End==============================
-        $this->db->trans_complete(); # Completing transaction
-        /* Optional */
-        if ($this->db->trans_status() === false) {
-            # Something went wrong.
-            $this->db->trans_rollback();
-            return false;
-        } else {
-            //return $return_value;
-        }
+        // $this->db->trans_complete(); # Completing transaction
+        // /* Optional */
+        // if ($this->db->trans_status() === false) {
+        //     # Something went wrong.
+        //     $this->db->trans_rollback();
+        //     return false;
+        // } else {
+        //     //return $return_value;
+        // }
+                    
+        return $return_value;
+
     }
 
     public function addEvaluation($insert_prev, $insert_array, $homework_id, $evaluation_date, $evaluated_by) {
-        $this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+        // $this->db->trans_start(); # Starting Transaction
+        // $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
         $homework = array('evaluation_date' => $evaluation_date, 'evaluated_by' => $evaluated_by);
         $this->db->where("id", $homework_id)->update("homework", $homework);
@@ -196,15 +202,17 @@ class Homework_model extends MY_model {
         $this->db->where_not_in('id', $insert_prev);
         $this->db->delete('homework_evaluation');
         //======================Code End==============================
-        $this->db->trans_complete(); # Completing transaction
-        /* Optional */
-        if ($this->db->trans_status() === false) {
-            # Something went wrong.
-            $this->db->trans_rollback();
-            return false;
-        } else {
-            return true;
-        }
+        // $this->db->trans_complete(); # Completing transaction
+        // /* Optional */
+        // if ($this->db->trans_status() === false) {
+        //     # Something went wrong.
+        //     $this->db->trans_rollback();
+        //     return false;
+        // } else {
+        //     return true;
+        // }
+        return true;
+
     }
 
     public function searchHomeworkEvaluation($class_id, $section_id, $subject_id) {

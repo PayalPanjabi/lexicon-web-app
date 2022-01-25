@@ -18,6 +18,8 @@ class Homework extends Admin_Controller
         $this->load->library('mailsmsconf');
         $this->sch_setting_detail = $this->setting_model->getSetting();
         $this->role;
+        $this->load->library('session');
+
     }
 
     public function index()
@@ -30,7 +32,10 @@ class Homework extends Admin_Controller
         $this->session->set_userdata('sub_menu', 'homework');
         $data["title"] = "Create Homework";
 
-        $class             = $this->class_model->get();
+        $admin = $this->session->userdata('admin');
+        $sch_id = $admin['sch_id'];
+
+        $class             = $this->class_model->get($sch_id);
         $data['classlist'] = $class;
 
         $userdata                 = $this->customlib->getUserData();
@@ -153,6 +158,8 @@ class Homework extends Admin_Controller
 
         } else {
 
+            $admin = $this->session->userdata('admin');
+            $sch_id = $admin['sch_id'];
             $session_id = $this->setting_model->getCurrentSession();
             $record_id  = $this->input->post('record_id');
             $data       = array(
@@ -168,6 +175,8 @@ class Homework extends Admin_Controller
                 'create_date'              => date("Y-m-d"),
                 'created_by'               => $userdata["id"],
                 'evaluated_by'             => '',
+                'sch_id'             => '',
+
             );
 
             $id = $this->homework_model->add($data);
