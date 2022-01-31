@@ -37,8 +37,8 @@ class customfield_model extends MY_Model {
      * @param $id
      */
     public function remove($id) {
-        $this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+        // $this->db->trans_start(); # Starting Transaction
+        // $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
         $this->db->where('id', $id);
         $this->db->delete('custom_fields');
@@ -47,15 +47,15 @@ class customfield_model extends MY_Model {
         $record_id = $id;
         $this->log($message, $record_id, $action);
         //======================Code End==============================
-        $this->db->trans_complete(); # Completing transaction
+        // $this->db->trans_complete(); # Completing transaction
         /* Optional */
-        if ($this->db->trans_status() === false) {
-            # Something went wrong.
-            $this->db->trans_rollback();
-            return false;
-        } else {
-            //return $return_value;
-        }
+        // if ($this->db->trans_status() === false) {
+        //     # Something went wrong.
+        //     $this->db->trans_rollback();
+        //     return false;
+        // } else {
+        //     //return $return_value;
+        // }
     }
 
     /**
@@ -65,8 +65,8 @@ class customfield_model extends MY_Model {
      * @param $data
      */
     public function add($data) {
-        $this->db->trans_start(); # Starting Transaction
-        $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
+        // $this->db->trans_start(); # Starting Transaction
+        // $this->db->trans_strict(false); # See Note 01. If you wish can remove as well
         //=======================Code Start===========================
         if (isset($data['id'])) {
             $this->db->where('id', $data['id']);
@@ -77,16 +77,16 @@ class customfield_model extends MY_Model {
             $this->log($message, $record_id, $action);
             //======================Code End==============================
 
-            $this->db->trans_complete(); # Completing transaction
+            // $this->db->trans_complete(); # Completing transaction
             /* Optional */
 
-            if ($this->db->trans_status() === false) {
-                # Something went wrong.
-                $this->db->trans_rollback();
-                return false;
-            } else {
-                //return $return_value;
-            }
+            // if ($this->db->trans_status() === false) {
+            //     # Something went wrong.
+            //     $this->db->trans_rollback();
+            //     return false;
+            // } else {
+            //     //return $return_value;
+            // }
         } else {
             $this->db->insert('custom_fields', $data);
             $insert_id = $this->db->insert_id();
@@ -96,16 +96,16 @@ class customfield_model extends MY_Model {
             $this->log($message, $record_id, $action);
             //======================Code End==============================
 
-            $this->db->trans_complete(); # Completing transaction
+            // $this->db->trans_complete(); # Completing transaction
             /* Optional */
 
-            if ($this->db->trans_status() === false) {
-                # Something went wrong.
-                $this->db->trans_rollback();
-                return false;
-            } else {
-                //return $return_value;
-            }
+            // if ($this->db->trans_status() === false) {
+            //     # Something went wrong.
+            //     $this->db->trans_rollback();
+            //     return false;
+            // } else {
+            //     //return $return_value;
+            // }
             return $insert_id;
         }
     }
@@ -126,23 +126,23 @@ class customfield_model extends MY_Model {
 
     public function insertRecord($custom_value_array, $insert_id) {
 
-        $this->db->trans_begin();
+        // $this->db->trans_begin();
 
         foreach ($custom_value_array as $insert_key => $insert_value) {
             $custom_value_array[$insert_key]['belong_table_id'] = $insert_id;
         }
         $this->db->insert_batch('custom_field_values', $custom_value_array);
 
-        if ($this->db->trans_status() === false) {
-            $this->db->trans_rollback();
-        } else {
-            $this->db->trans_commit();
-        }
+        // if ($this->db->trans_status() === false) {
+        //     $this->db->trans_rollback();
+        // } else {
+        //     $this->db->trans_commit();
+        // }
     }
 
     public function updateRecord($custom_value_array, $id, $belong_to) {
 
-        $this->db->trans_begin();
+        // $this->db->trans_begin();
         foreach ($custom_value_array as $custom_value_key => $custom_value_value) {
             $this->db->where('belong_table_id', $id);
             $this->db->where('custom_field_id', $custom_value_value['custom_field_id']);
@@ -158,11 +158,11 @@ class customfield_model extends MY_Model {
             }
         }
 
-        if ($this->db->trans_status() === false) {
-            $this->db->trans_rollback();
-        } else {
-            $this->db->trans_commit();
-        }
+        // if ($this->db->trans_status() === false) {
+        //     $this->db->trans_rollback();
+        // } else {
+        //     $this->db->trans_commit();
+        // }
     }
 
     function get_custom_fields($belongs_to, $display_table = null) {
