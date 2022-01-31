@@ -216,6 +216,17 @@ class Timetable extends Admin_Controller
         $data['section_id'] = "";
         $exam               = $this->exam_model->get();
         $class              = $this->class_model->get('', $classteacher = 'yes');
+        $my_role  = $this->customlib->getStaffRole();
+        $role     = json_decode($my_role);
+        $is_admin = false;
+
+        if ($role->id != "2") {
+            $staff_list         = $this->staff_model->getEmployee('2');
+            $data['staff_list'] = $staff_list;
+            $is_admin           = true;
+        }
+        // echo "<pre>";
+        // print_r($data['staff_list']);die;
         $data['examlist']   = $exam;
         $data['classlist']  = $class;
         $userdata           = $this->customlib->getUserData();
@@ -243,7 +254,7 @@ class Timetable extends Admin_Controller
                 $data['timetable'] = $days_record;
             }
         }
-
+// echo "<pre>";print_r($data);die;
         $this->load->view('layout/header', $data);
         $this->load->view('admin/timetable/classreport', $data);
         $this->load->view('layout/footer', $data);

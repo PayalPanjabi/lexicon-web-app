@@ -114,7 +114,18 @@
                                                                     <strong class="text-green"><?php echo $tm_kue->time_to; ?></strong><br>
 
                                                                     <strong class="text-green"><?php echo $this->lang->line('room_no'); ?>: <?php echo $tm_kue->room_no; ?></strong><br>
+                                                                    <?php foreach ($staff_list as $staff_link ) {
+                                                                        ?>
 
+                                                                        <?php if ($tm_kue->staff_id == $staff_link['id'])  {?>
+             
+                                <a class="btn btn-primary"  href="<?php echo $staff_link['MeetingID']; ?>" target="_blank" role="button">Link</a>
+                               
+                                <?php }?>
+
+                               <?php
+                                }
+                                ?>
                                                                 </div>
                                                                 <?php
                                                             }
