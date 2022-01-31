@@ -1,4 +1,6 @@
 <?php
+
+
 if (!empty($timetable)) {
     ?>
     <table class="table table-stripped">
@@ -47,7 +49,12 @@ if (!empty($timetable)) {
                                     <strong class="text-green"><?php echo $tm_kue->time_to; ?></strong><br>
 
                                     <strong class="text-green"><?php echo $this->lang->line('room_no') ?>: <?php echo $tm_kue->room_no; ?></strong><br>
+                                    <?php foreach ($staff_list as $staff_link ) {?>
 
+                                    <a class="btn btn-primary"  href="<?php echo $staff_link['MeetingID']; ?>" target="_blank" role="button">Link</a>
+                                    <?php
+                                    }
+                                    ?>
                                 </div>
                                 <?php
                             }

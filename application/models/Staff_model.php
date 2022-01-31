@@ -1001,4 +1001,33 @@ class Staff_model extends MY_Model
 
     }
 
+
+        public function staff_custom_field($searchterm)
+    {
+        $i             = 1;
+        $custom_fields = $this->customfield_model->get_custom_fields('staff', 1);
+
+        $field_k_array = array();
+        $join_array    = "";
+        if (!empty($custom_fields)) {
+            foreach ($custom_fields as $custom_fields_key => $custom_fields_value) {
+                $tb_counter = "table_custom_" . $i;
+                array_push($field_k_array, '`table_custom_' . $i . '`.`field_value` as `' . $custom_fields_value->name . '`');               
+                $join_array .= " LEFT JOIN `custom_field_values` as `" . $tb_counter . "` ON `staff`.`id` = `" . $tb_counter . "`.`belong_table_id` AND `" . $tb_counter . "`.`custom_field_id` = " . $custom_fields_value->id;
+
+                $i++;
+            }
+        } 
+       
+        $field_var = count($field_k_array) > 0 ? "," . implode(',', $field_k_array) : "";
+
+         
+
+        $query = "SELECT `staff`.*, `staff_designation`.`designation` as `designation`, `department`.`department_name` as `department`,`roles`.`name` as user_type " . $field_var . "  FROM `staff` " . $join_array . " LEFT JOIN `staff_designation` ON `staff_designation`.`id` = `staff`.`designation` LEFT JOIN `staff_roles` ON `staff_roles`.`staff_id` = `staff`.`id` LEFT JOIN `roles` ON `staff_roles`.`role_id` = `roles`.`id` LEFT JOIN `department` ON `department`.`id` = `staff`.`department` WHERE `staff`.`id` = $searchterm";
+
+        $query = $this->db->query($query);
+        // print( $query);
+        return $query->result_array();
+    }
+
 }

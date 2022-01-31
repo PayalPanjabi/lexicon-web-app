@@ -435,6 +435,11 @@ class Timetable extends Admin_Controller
         } else {
             $staff_id = $this->input->post('teacher');
             // $staff_id          = $this->customlib->getStaffID();
+            // print_r($staff_id);die;
+
+            $staff_list         = $this->staff_model->staff_custom_field($staff_id);
+            $data['staff_list'] = $staff_list;
+
             $data['timetable'] = array();
             $days              = $this->customlib->getDaysname();
 
