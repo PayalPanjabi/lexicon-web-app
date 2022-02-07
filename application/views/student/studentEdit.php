@@ -318,16 +318,16 @@ echo display_custom_fields('students', $student['id']);
 <?php
 if (!empty($siblings)) {
     ?>
-                                <div class="tshadow mb25 bozero sibling_div relative">
+                                <!-- <div class="tshadow mb25 bozero sibling_div relative">
                                     <h3 class="pagetitleh2"><?php echo $this->lang->line('sibling'); ?></h3>
                                     <div class="box-tools sibbtnposition">
                                         <button type="button" class="btn btn-primary btn-sm remove_sibling"><?php echo $this->lang->line('remove'); ?> <?php echo $this->lang->line('sibling'); ?>
                                         </button>
 
-                                    </div>
+                                    </div> -->
 
 
-                                    <div class="around10">
+                                    <!-- <div class="around10">
                                         <div class="row">
                                             <input type="hidden" name="siblings_counts" class="siblings_counts" value="<?php echo $siblings_counts; ?>">
                                             <?php
@@ -350,7 +350,6 @@ if (!empty($siblings)) {
 
                                                                 </p>
 
-                                                                <!-- Split button -->
 
                                                             </div>
 
@@ -363,7 +362,7 @@ if (!empty($siblings)) {
     ?>
 
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
 
                                 <?php
