@@ -1047,7 +1047,31 @@ class Student extends Admin_Controller
                            
 
                             $roll_no                           = $student_data[$i]["roll_no"];
-                            $adm_no                            = $student_data[$i]["admission_no"];
+
+                            $admin = $this->session->userdata('admin');
+                            $school_id = $admin['sch_id'];  
+                            $student_data[$i]['sch_id'] = $school_id;
+
+                            if($student_data[$i]['sch_id'] == 1){
+                                $student_data[$i]["admission_no"]                            = $student_data[$i]["admission_no"]."_tlish";
+                                $adm_no1=$student_data[$i]["admission_no"];
+
+                            }
+
+                            if($student_data[$i]['sch_id'] == 7){
+                                $student_data[$i]["admission_no"]   = $student_data[$i]["admission_no"]."_tlisw";
+                                $adm_no1=$student_data[$i]["admission_no"];
+
+                            }
+
+                            if($student_data[$i]['sch_id'] == 8){
+
+                                $student_data[$i]["admission_no"]          = $student_data[$i]["admission_no"]."_tlisk";
+                                $adm_no1=$student_data[$i]["admission_no"];
+
+                            }
+                             $adm_no                            = $adm_no1;
+// print_r($adm_no);die;
                             $mobile_no                         = $student_data[$i]["mobileno"];
                             $email                             = $student_data[$i]["email"];
                             $guardian_phone                    = $student_data[$i]["guardian_phone"];

@@ -171,17 +171,16 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                 if (!empty($siblings)) {
                     ?>
                     <div class="box box-primary">
-                        <div class="box-header with-border">
+                        <!-- <div class="box-header with-border">
                             <h3 class="box-title"><?php echo $this->lang->line('sibling'); ?></h3>
-                        </div>
+                        </div> -->
                         <!-- /.box-header -->
 
-                        <div class="box-body">
+                        <!-- <div class="box-body">
                             <?php
                             foreach ($siblings as $sibling_key => $sibling_value) {
                                 ?>
                                 <div class="box box-widget widget-user-2">
-                                    <!-- Add the bg color to the header using any of the bg-* classes -->
                                     <div class="siblingview">
                                         <img class="" src="<?php echo base_url() . $sibling_value->image; ?>" alt="User Avatar">
                                         <h4><a href="<?php echo site_url('student/view/' . $sibling_value->id) ?>"><?php echo $this->customlib->getFullName($sibling_value->firstname,$sibling_value->middlename,$sibling_value->lastname,$sch_setting->middlename,$sch_setting->lastname); ?></a></h4>
@@ -205,8 +204,7 @@ $currency_symbol = $this->customlib->getSchoolCurrencyFormat();
                             }
                             ?>
 
-                        </div>
-                        <!-- /.box-body -->
+                        </div> -->
                     </div>
 
                     <?php
