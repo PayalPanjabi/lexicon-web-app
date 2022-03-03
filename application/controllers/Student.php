@@ -524,7 +524,39 @@ class Student extends Admin_Controller
                     $insert = false;
                 }
             } else {
-                $data_insert['admission_no'] = $this->input->post('admission_no');
+
+                // prefix admin user 
+                $admin = $this->session->userdata('admin');
+                $student = $this->session->userdata('student');
+
+                if (isset($admin))
+                {
+                    $school_id = $admin['sch_id'];
+
+                } 
+                if (isset($student))
+                {
+                    $school_id = $student['sch_id'];
+                }
+
+
+                 if($school_id == 8){
+                    $student_login_prefix_new = "tlisk_";
+
+                }
+
+                if($school_id == 7){
+
+                    $student_login_prefix_new = "tlisw_";
+                }
+
+                if($school_id == 1){
+
+                  $student_login_prefix_new = "tlish_";
+
+                }
+
+                $data_insert['admission_no'] = $this->input->post('admission_no'). $student_login_prefix_new;
             }
             if ($insert) {
                 $insert_id = $this->student_model->add($data_insert, $data_setting);
@@ -544,12 +576,17 @@ class Student extends Admin_Controller
                 $user_password = $this->role->get_random_password($chars_min = 6, $chars_max = 6, $use_upper_case = false, $include_numbers = true, $include_special_chars = false);
 
                 $sibling_id         = $this->input->post('sibling_id');
+
+                $admin = $this->session->userdata('admin');
+                $school_id = $admin['sch_id'];
+
                 $data_student_login = array(
-                    'username' => $this->student_login_prefix . $insert_id,
+                    // 'username' => $this->student_login_prefix . $insert_id, 
+                    'username' => $data_insert['admission_no'],
                     'password' => $user_password,
                     'user_id'  => $insert_id,
+                    'sch_id'   => $data_insert['sch_id'],
                     'role'     => 'student',
-                    'sch_id' => $school_id,
 
                 );
 
@@ -677,7 +714,9 @@ class Student extends Admin_Controller
                 $sender_details = array('student_id' => $insert_id, 'contact_no' => $this->input->post('guardian_phone'), 'email' => $this->input->post('guardian_email'));
                 $this->mailsmsconf->mailsms('student_admission', $sender_details);
 
-                $student_login_detail = array('id' => $insert_id, 'credential_for' => 'student', 'username' => $this->student_login_prefix . $insert_id, 'password' => $user_password, 'contact_no' => $this->input->post('mobileno'), 'email' => $this->input->post('email'));
+                // $student_login_detail = array('id' => $insert_id, 'credential_for' => 'student', 'username' => $this->student_login_prefix . $insert_id, 'password' => $user_password, 'contact_no' => $this->input->post('mobileno'), 'email' => $this->input->post('email'));
+                $student_login_detail = array('id' => $insert_id, 'credential_for' => 'student', 'username' => $data_insert['admission_no'], 'password' => $user_password, 'contact_no' => $this->input->post('mobileno'), 'email' => $this->input->post('email'));
+
                 $this->mailsmsconf->mailsms('login_credential', $student_login_detail);
 
                 if ($sibling_id > 0) {
@@ -1100,7 +1139,8 @@ class Student extends Admin_Controller
                                 $sibling_id    = $this->input->post('sibling_id');
 
                                 $data_student_login = array(
-                                    'username' => $this->student_login_prefix . $insert_id,
+                                    // 'username' => $this->student_login_prefix . $insert_id, $adm_no,
+                                    'username' => $adm_no,
                                     'password' => $user_password,
                                     'user_id'  => $insert_id,
                                     'role'     => 'student',
@@ -1128,7 +1168,7 @@ class Student extends Admin_Controller
                                 $sender_details = array('student_id' => $insert_id, 'contact_no' => $guardian_phone, 'email' => $guardian_email);
                                 $this->mailsmsconf->mailsms('student_admission', $sender_details);
 
-                                $student_login_detail = array('id' => $insert_id, 'credential_for' => 'student', 'username' => $this->student_login_prefix . $insert_id, 'password' => $user_password, 'contact_no' => $mobile_no, 'email' => $email);
+                                $student_login_detail = array('id' => $insert_id, 'credential_for' => 'student', 'username' => $adm_no, 'password' => $user_password, 'contact_no' => $mobile_no, 'email' => $email);
                                 $this->mailsmsconf->mailsms('login_credential', $student_login_detail);
 
                                 $parent_login_detail = array('id' => $insert_id, 'credential_for' => 'parent', 'username' => $this->parent_login_prefix . $insert_id, 'password' => $parent_password, 'contact_no' => $guardian_phone, 'email' => $guardian_email);
